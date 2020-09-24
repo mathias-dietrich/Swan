@@ -15,11 +15,13 @@
 #include <cstdlib>
 
 #include<thread>
+#include <ctype.h>
 
 #include "Types.h"
 #include "Board.h"
 #include "Global.h"
 #include "Log.h"
+#include "Thread.h"
 
 //main.cpp
 
@@ -33,6 +35,7 @@ using namespace std;
 class Engine{
 public:
     
+    
     Engine(){
         instance = this;
         initmagicmoves();
@@ -43,17 +46,31 @@ public:
     }
     
     void test(){
+        
+        ThreadPool t;
+        t.init();
+        sleep(3);
+        t.close();
+        
+        /*
         TBoard *b = new TBoard();
         b->setFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         b->bb.occupiedSquares = 3;
         TBitBoard s = b->bb.occupiedSquares;
-        Log::of().showBitBoard(s);
+        cout << getRank('1') << endl;
+        cout << getFile('a') << endl;
+        cout <<  getPosFromStr("h8") << endl;
+        //Log::of().showBitBoard(s);
+         */
     }
     
     void go( TBoard *board){
         this->board = board;
-        isRunning = true;
-        currentThread = std::thread(std::bind(&Engine::run, this));
+        isFindMove = true;
+        if(!isRunning ){
+            isRunning = true;
+            currentThread = std::thread(std::bind(&Engine::run, this));
+        }
     }
     
     void newGame(){
@@ -81,22 +98,32 @@ public:
     void setMovesToGo(int count){
         movesToGo = count;
     }
-    
-    
 
     void run(){
         while(isRunning){
-            if(isRunning){
-                sleep(0.1);
+            while(!isFindMove){
+                sleep(0.01);
             }
-            string move = "e7e5";
-            
-            Bmagic(0, board->bb.occupiedSquares);
-            TBitBoard s = board->bb.occupiedSquares;
-            Log::of().logBitBoard(s);
-            
+            string move = "";
+            switch(counter){
+                case 0:
+                    move = "e7e5";
+                    break;
+                    
+                case 1:
+                    move = "b8c6";
+                    break;
+
+                case 2:
+                    move = "g7g5";
+                    break;
+
+            }
+            counter++;
+            board->move(move);
+            Log::of().logBoard(board);
             reply("bestmove " + move);
-            isRunning = false;
+            isFindMove = false;
         }
     }
     
@@ -106,12 +133,15 @@ private:
     int timeWhite;
     int timeBlack;
     int movesToGo;
-    bool isRunning;
+    bool isRunning = false;
+    bool isFindMove = false;
     TBoard *board;
     
     void reply(string cmd){
         myfile << "OUT: " << cmd << endl;
         std::cout  << cmd << "\n" << std::endl;
     }
+    
+    int counter = 0;
 };
 

@@ -66,6 +66,13 @@ public:
         
     }
     
+    void move(string move){
+        Square from = getPosFromStr(move.substr(0,2));
+        Square to = getPosFromStr(move.substr(2,2));
+        bb.squares[to] =  bb.squares[from];
+        bb.squares[from] = EMPTY;
+    }
+    
     void print(){
         myfile << "  A B C D E F G H" << endl;
         for(int i=8; i>0; --i){

@@ -7,12 +7,15 @@
 
 #pragma once
 
+#include <ctype.h>
 
 #include "Global.h"
 
 // BitBoard = Int64 (long long)
 typedef long long TBitBoard;
 typedef long long int64;
+
+
 
 enum Color {
     WHITE = 0,
@@ -67,10 +70,22 @@ enum File {
   FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NB
 };
 
+inline File getFile(char x){
+    return (File)(int) (x - 97);
+}
+
 enum Rank {
   RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NB
 };
 
+inline Rank getRank(char x){
+    return (Rank)(int) (x - 49);
+}
+
+inline Square getPosFromStr(string pos){
+    int p = (tolower(pos[0]) - 97) + 8 *  (pos[1]-49);
+    return (Square)p;
+}
 
 inline Square make_square(File f, Rank r) {
   return Square(int(f) | (int(r) << 3));

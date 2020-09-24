@@ -61,12 +61,14 @@ int main(int argc, char* argv[])
         myfile << line << endl;
         if(state == MOVES){
             if(line == "go"){
-                state = GO;
                 engine->go(board);
+                state = READY;
                 continue;
             }
+            
             // TODO move the board
-            myfile << "making move" << endl;
+            myfile << "making move: " << line << endl;
+            board->move(line);
             Log::of().logBoard(board);
             continue;
         }
@@ -74,19 +76,6 @@ int main(int argc, char* argv[])
         if(state == MOVESTOGO){
             int count = std::stoi(line);
             engine->setMovesToGo(count);
-            state = READY;
-            continue;
-        }
-        if(state == BTIME){
-            int time = std::stoi(line);
-            engine->setTimeBlack(time);
-            state = READY;
-            continue;
-        }
-        if(state == WTIME){
-            int time = std::stoi(line);
-            engine->setTimeWhite(time);
-            state = READY;
             continue;
         }
         if(state == POSITION){
@@ -99,11 +88,10 @@ int main(int argc, char* argv[])
             if(line == "startpos"){
                 board->setFEN(startfen);
                 board->print();
-                state = READY;
                 continue;
             }
             if(line == "moves"){
-                state = READY;
+                state = MOVES;
                 continue;
             }
         }
@@ -149,12 +137,18 @@ int main(int argc, char* argv[])
         }
         
         if(line == "wtime"){
-            state = WTIME;
+            cin >> line;
+            myfile << "IN: " + line;
+            int time = std::stoi(line);
+            engine->setTimeWhite(time);
             continue;
         }
         
         if(line == "btime"){
-            state = BTIME;
+            cin >> line;
+            myfile << "IN: " + line;
+            int time = std::stoi(line);
+            engine->setTimeBlack(time);
             continue;
         }
 
@@ -163,10 +157,15 @@ int main(int argc, char* argv[])
             engine->go(board);
             continue;
         }
+        
         if(line == "movestogo"){
-            state = MOVESTOGO;
+            cin >> line;
+            myfile << "IN: " + line;
+            int count = std::stoi(line);
+            engine->setMovesToGo(count);
             continue;
         }
+        
         if(line == "test"){
             engine->test();
             continue;

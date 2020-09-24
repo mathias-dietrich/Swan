@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4F317C342517A94900EF2C6D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F317C332517A94900EF2C6D /* main.cpp */; };
+		4F5EC963251CE78F00EF69F0 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC961251CE78F00EF69F0 /* Thread.cpp */; };
 		4FE0199C251A26340065F6FA /* magicmoves.c in Sources */ = {isa = PBXBuildFile; fileRef = 4FE0199B251A26340065F6FA /* magicmoves.c */; };
 		4FE46C482519347D0041B289 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE46C472519347D0041B289 /* Engine.cpp */; };
 		4FE46C4D25193A540041B289 /* Global.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE46C4B25193A540041B289 /* Global.cpp */; };
@@ -28,6 +29,8 @@
 /* Begin PBXFileReference section */
 		4F317C302517A94900EF2C6D /* Swan */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Swan; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F317C332517A94900EF2C6D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		4F5EC961251CE78F00EF69F0 /* Thread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
+		4F5EC962251CE78F00EF69F0 /* Thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
 		4F971E0F2517C6B2007BF2F1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		4F971E112517C71A007BF2F1 /* Board.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
 		4F971E152517D02F007BF2F1 /* Engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
@@ -79,6 +82,8 @@
 				4FE46C472519347D0041B289 /* Engine.cpp */,
 				4FE46C4B25193A540041B289 /* Global.cpp */,
 				4FE46C4C25193A540041B289 /* Global.h */,
+				4F5EC961251CE78F00EF69F0 /* Thread.cpp */,
+				4F5EC962251CE78F00EF69F0 /* Thread.h */,
 			);
 			path = Swan;
 			sourceTree = "<group>";
@@ -142,6 +147,7 @@
 				4FE0199C251A26340065F6FA /* magicmoves.c in Sources */,
 				4FE46C4D25193A540041B289 /* Global.cpp in Sources */,
 				4F317C342517A94900EF2C6D /* main.cpp in Sources */,
+				4F5EC963251CE78F00EF69F0 /* Thread.cpp in Sources */,
 				4FE46C482519347D0041B289 /* Engine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
