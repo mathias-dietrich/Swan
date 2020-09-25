@@ -32,7 +32,6 @@
     
     if ( NSEqualSizes( imageSize, targetSize ) == NO )
     {
-    
       float widthFactor  = targetWidth / width;
       float heightFactor = targetHeight / height;
       
