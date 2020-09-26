@@ -14,11 +14,17 @@ int activeFrom;
 int activeTo[64];
 int BORDER =20;
 int hit;
-bool needsInit = true;
 bool isSelected;
 moveStatus nextToMove;
 Wrapper * wrapper;
 bool isFliped = false;
+
+- (void)setup{
+    nextToMove = WHITE;
+    [self setFen: @""];
+    wrapper = [Wrapper alloc];
+    [self setNeedsDisplay:YES];
+}
 
 - (void)flip{
     isFliped = !isFliped;
@@ -50,7 +56,12 @@ bool isFliped = false;
     int y = curPoint.y-BORDER;
     int file = x/95;
     int rank =  y/95;
-    hit = file + rank* 8 ;
+    if(isFliped){
+        hit = 63 - (file + rank* 8) ;
+    }else{
+        hit = file + rank * 8 ;
+    }
+   
     [self setNeedsDisplay:YES];
 }
  
@@ -60,7 +71,12 @@ bool isFliped = false;
     int y = curPoint.y-BORDER;
     int file = x/95;
     int rank =  y/95;
-    int fieldId = file + rank* 8 ;
+    int fieldId;
+    if(isFliped){
+        fieldId = 63 - (file + rank * 8) ;
+    }else{
+        fieldId = file + rank* 8 ;
+    }
     if(fieldId == hit){
         
         if(activeFrom == hit){
@@ -197,13 +213,7 @@ bool isFliped = false;
 
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
-    if(needsInit){
-        [self setFen: @""];
-        needsInit = false;
-        wrapper = [Wrapper alloc];
-        NSLog([wrapper getHelloString]);
-    }
-   
+
     NSSize size = NSMakeSize(77,77);
     NSImage *wBishop = [self imageResize:[NSImage imageNamed:@"Chess_blt60"] newSize:size];
     NSImage *wRook = [self imageResize:[NSImage imageNamed:@"Chess_rlt60"] newSize:size];
@@ -239,7 +249,11 @@ bool isFliped = false;
             CGRect rectangle = CGRectMake(BORDER + x * 95, BORDER + y * 95, 95, 95);
             NSRectFill( rectangle);
             
-            NSString *ss = [NSString stringWithFormat:@"%i", y*8+x];
+            int no = y*8+x;
+            if(isFliped){
+                no = 63-no;
+            }
+            NSString *ss = [NSString stringWithFormat:@"%i",no];
             NSAttributedString * currentText=[[NSAttributedString alloc] initWithString:ss attributes: attributesSmall];
             [currentText drawAtPoint:NSMakePoint(23 + x * 95, 20 + y * 95)];
         }
@@ -247,14 +261,22 @@ bool isFliped = false;
     }
 
     for(int i =0; i < 8;i++){
-        char c = (char) i + 65;
+        int file = i;
+        if(isFliped){
+            file = 7-file;
+        }
+        char c = (char) file + 65;
         NSString *s = [NSString stringWithFormat:@"%c", c];
         NSAttributedString * currentText=[[NSAttributedString alloc] initWithString:s attributes: attributes];
         [currentText drawAtPoint:NSMakePoint(59+i*95  , 0)];
         [currentText drawAtPoint:NSMakePoint(59+i*95  , 780)];
     }
     for(int i =0; i < 8;i++){
-        char c = (char) i + 49;
+        int rank = i;
+        if(isFliped){
+            rank = 7-rank;
+        }
+        char c = (char) rank + 49;
         NSString *s = [NSString stringWithFormat:@"%c", c];
         NSAttributedString * currentText=[[NSAttributedString alloc] initWithString:s attributes: attributes];
         [currentText drawAtPoint:NSMakePoint(5, 59+i*95)];
@@ -263,8 +285,12 @@ bool isFliped = false;
     
     // Active Fields
     if(activeFrom > -1){
-        int x = activeFrom % 8;
-        int y = activeFrom / 8;
+        int aField = activeFrom;
+        if(isFliped){
+            aField = 63-aField;
+        }
+        int x = aField % 8;
+        int y = aField / 8;
         int xPos = 27 + x * 95;
         int yPos = 27 + y * 95;
         NSRect rect = NSMakeRect(xPos, yPos, 80, 80);
@@ -278,8 +304,12 @@ bool isFliped = false;
     
     for(int i=0;i<64;i++){
         if(activeTo[i]>-1){
-            int x = activeTo[i] % 8;
-            int y = activeTo[i] / 8;
+            int aField = activeTo[i];
+            if(isFliped){
+                aField = 63-aField;
+            }
+            int x = aField % 8;
+            int y = aField / 8;
             int xPos = 27 + x * 95;
             int yPos = 27 + y * 95;
             NSRect rect = NSMakeRect(xPos, yPos, 80, 80);
@@ -293,10 +323,17 @@ bool isFliped = false;
     }
     
     for(int i =0;i<64;++i){
-        int x = i % 8;
-        int y = i / 8;
+        
+        int p = i;
+        if(isFliped){
+            p = 63-p;
+        }
+        
+        int x = p % 8;
+        int y = p / 8;
         int xPos = 27 + x * 95;
         int yPos = 29 + y * 95;
+        
         switch(pieces[i]){
   
             case W_KING:
@@ -335,14 +372,11 @@ bool isFliped = false;
             case B_PAWN:
                 [bPawn drawAtPoint:NSMakePoint(xPos,yPos) fromRect:CGRectMake(0, 0, 90, 90) operation:NSCompositeSourceOver fraction:1.0];
                 break;
-                
 
             default:
                 break;
         }
     }
-
-    // Drawing code here.
 }
 
 @end

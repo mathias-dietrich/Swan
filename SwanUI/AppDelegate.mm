@@ -24,9 +24,8 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [field setup];
     NSLog(@">applicationDidFinishLaunching");
-
-    
 }
 
 
