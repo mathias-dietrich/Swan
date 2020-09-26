@@ -6,6 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "Wrapper.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,21 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-enum piece {
-    EMPTY = 0, // 0
-    W_PAWN = 1, // 0
-    W_ROOK = 2, // 0
-    W_KNIGHT = 3, // 0
-    W_BISHOP = 4, // 0
-    W_QUEEN = 5,
-    W_KING = 6,
-    B_PAWN = 7,
-    B_ROOK = 8,
-    B_KNIGHT = 9,
-    B_BISHOP = 10,
-    B_QUEEN = 11,
-    B_KING = 12,
-};
+enum piece {EMPTY,W_PAWN,W_KNIGHT,W_BISHOP,W_ROOK,W_QUEEN,W_KING,B_PAWN,B_KNIGHT,B_BISHOP,B_ROOK,B_QUEEN,B_KING,INVALID};
+
 
 enum moveStatus {
     NONE,
@@ -43,4 +31,5 @@ bool needsInit = true;
 bool isSelected;
 enum moveStatus nextToMove = WHITE;
 
+Wrapper * wrapper;
 NS_ASSUME_NONNULL_END

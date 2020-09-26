@@ -7,28 +7,49 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F5EC974251D277C00EF69F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC973251D277C00EF69F0 /* AppDelegate.m */; };
+		4F26C7D9251E39D400050C2A /* Field.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7D3251E39D400050C2A /* Field.mm */; };
+		4F26C7E7251E3AB800050C2A /* Wrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7E6251E3AB800050C2A /* Wrapper.mm */; };
+		4F26C7EE251E439700050C2A /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7EC251E439700050C2A /* Thread.cpp */; };
+		4F26C7F4251E43A400050C2A /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7F0251E43A400050C2A /* Engine.cpp */; };
+		4F26C7F8251E43AE00050C2A /* Global.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7F7251E43AE00050C2A /* Global.cpp */; };
+		4F26C7FF251E43BD00050C2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7FB251E43BD00050C2A /* main.m */; };
+		4F26C801251E43BD00050C2A /* magicmoves.c in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7FE251E43BD00050C2A /* magicmoves.c */; };
+		4F5EC974251D277C00EF69F0 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC973251D277C00EF69F0 /* AppDelegate.mm */; };
 		4F5EC979251D277E00EF69F0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F5EC977251D277E00EF69F0 /* MainMenu.xib */; };
 		4F5EC97C251D277E00EF69F0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC97B251D277E00EF69F0 /* main.m */; };
-		4F5EC986251D2B0900EF69F0 /* Field.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC985251D2B0900EF69F0 /* Field.m */; };
 		4F5EC989251D379D00EF69F0 /* pieces in Resources */ = {isa = PBXBuildFile; fileRef = 4F5EC988251D379D00EF69F0 /* pieces */; };
 		4F5EC999251D39CD00EF69F0 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F5EC998251D39CD00EF69F0 /* Media.xcassets */; };
-		4F5EC99D251D3E1700EF69F0 /* extension.h in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC99C251D3E1700EF69F0 /* extension.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F26C7CB251E39D300050C2A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../Swan/main.cpp; sourceTree = "<group>"; };
+		4F26C7D0251E39D400050C2A /* Field.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Field.h; sourceTree = "<group>"; };
+		4F26C7D3251E39D400050C2A /* Field.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Field.mm; sourceTree = "<group>"; };
+		4F26C7E5251E3AB800050C2A /* Wrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wrapper.h; sourceTree = "<group>"; };
+		4F26C7E6251E3AB800050C2A /* Wrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrapper.mm; sourceTree = "<group>"; };
+		4F26C7EB251E439700050C2A /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = SwanUI/Thread.h; sourceTree = SOURCE_ROOT; };
+		4F26C7EC251E439700050C2A /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Thread.cpp; path = SwanUI/Thread.cpp; sourceTree = SOURCE_ROOT; };
+		4F26C7ED251E439700050C2A /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = SwanUI/Types.h; sourceTree = SOURCE_ROOT; };
+		4F26C7F0251E43A400050C2A /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = SwanUI/Engine.cpp; sourceTree = SOURCE_ROOT; };
+		4F26C7F1251E43A400050C2A /* extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = extension.h; path = SwanUI/extension.h; sourceTree = SOURCE_ROOT; };
+		4F26C7F2251E43A400050C2A /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = SwanUI/Engine.h; sourceTree = SOURCE_ROOT; };
+		4F26C7F3251E43A400050C2A /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Board.h; path = SwanUI/Board.h; sourceTree = SOURCE_ROOT; };
+		4F26C7F6251E43AE00050C2A /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Global.h; path = SwanUI/Global.h; sourceTree = SOURCE_ROOT; };
+		4F26C7F7251E43AE00050C2A /* Global.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Global.cpp; path = SwanUI/Global.cpp; sourceTree = SOURCE_ROOT; };
+		4F26C7FA251E43B300050C2A /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = SwanUI/Log.h; sourceTree = SOURCE_ROOT; };
+		4F26C7FB251E43BD00050C2A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SwanUI/main.m; sourceTree = SOURCE_ROOT; };
+		4F26C7FC251E43BD00050C2A /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = SwanUI/main.cpp; sourceTree = SOURCE_ROOT; };
+		4F26C7FD251E43BD00050C2A /* magicmoves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = magicmoves.h; path = SwanUI/magicmoves.h; sourceTree = SOURCE_ROOT; };
+		4F26C7FE251E43BD00050C2A /* magicmoves.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = magicmoves.c; path = SwanUI/magicmoves.c; sourceTree = SOURCE_ROOT; };
 		4F5EC96F251D277C00EF69F0 /* SwanUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwanUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F5EC972251D277C00EF69F0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4F5EC973251D277C00EF69F0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4F5EC973251D277C00EF69F0 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		4F5EC978251D277E00EF69F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		4F5EC97A251D277E00EF69F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F5EC97B251D277E00EF69F0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4F5EC97D251D277E00EF69F0 /* SwanUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwanUI.entitlements; sourceTree = "<group>"; };
-		4F5EC984251D2B0900EF69F0 /* Field.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Field.h; sourceTree = "<group>"; };
-		4F5EC985251D2B0900EF69F0 /* Field.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Field.m; sourceTree = "<group>"; };
 		4F5EC988251D379D00EF69F0 /* pieces */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pieces; sourceTree = "<group>"; };
 		4F5EC998251D39CD00EF69F0 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		4F5EC99C251D3E1700EF69F0 /* extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = extension.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +63,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F26C7E0251E3A4900050C2A /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				4F26C7FE251E43BD00050C2A /* magicmoves.c */,
+				4F26C7FD251E43BD00050C2A /* magicmoves.h */,
+				4F26C7FC251E43BD00050C2A /* main.cpp */,
+				4F26C7FB251E43BD00050C2A /* main.m */,
+				4F26C7FA251E43B300050C2A /* Log.h */,
+				4F26C7F7251E43AE00050C2A /* Global.cpp */,
+				4F26C7F6251E43AE00050C2A /* Global.h */,
+				4F26C7F3251E43A400050C2A /* Board.h */,
+				4F26C7F0251E43A400050C2A /* Engine.cpp */,
+				4F26C7F2251E43A400050C2A /* Engine.h */,
+				4F26C7F1251E43A400050C2A /* extension.h */,
+				4F26C7EC251E439700050C2A /* Thread.cpp */,
+				4F26C7EB251E439700050C2A /* Thread.h */,
+				4F26C7ED251E439700050C2A /* Types.h */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
 		4F5EC966251D277C00EF69F0 = {
 			isa = PBXGroup;
 			children = (
@@ -63,15 +105,18 @@
 			children = (
 				4F5EC988251D379D00EF69F0 /* pieces */,
 				4F5EC972251D277C00EF69F0 /* AppDelegate.h */,
-				4F5EC973251D277C00EF69F0 /* AppDelegate.m */,
+				4F5EC973251D277C00EF69F0 /* AppDelegate.mm */,
+				4F26C7E5251E3AB800050C2A /* Wrapper.h */,
+				4F26C7E6251E3AB800050C2A /* Wrapper.mm */,
 				4F5EC977251D277E00EF69F0 /* MainMenu.xib */,
 				4F5EC97A251D277E00EF69F0 /* Info.plist */,
+				4F26C7CB251E39D300050C2A /* main.cpp */,
 				4F5EC97B251D277E00EF69F0 /* main.m */,
+				4F26C7D0251E39D400050C2A /* Field.h */,
+				4F26C7D3251E39D400050C2A /* Field.mm */,
 				4F5EC97D251D277E00EF69F0 /* SwanUI.entitlements */,
-				4F5EC984251D2B0900EF69F0 /* Field.h */,
-				4F5EC985251D2B0900EF69F0 /* Field.m */,
+				4F26C7E0251E3A4900050C2A /* Engine */,
 				4F5EC998251D39CD00EF69F0 /* Media.xcassets */,
-				4F5EC99C251D3E1700EF69F0 /* extension.h */,
 			);
 			path = SwanUI;
 			sourceTree = "<group>";
@@ -145,10 +190,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F5EC986251D2B0900EF69F0 /* Field.m in Sources */,
+				4F26C7D9251E39D400050C2A /* Field.mm in Sources */,
+				4F26C7F4251E43A400050C2A /* Engine.cpp in Sources */,
+				4F26C7F8251E43AE00050C2A /* Global.cpp in Sources */,
+				4F26C7E7251E3AB800050C2A /* Wrapper.mm in Sources */,
 				4F5EC97C251D277E00EF69F0 /* main.m in Sources */,
-				4F5EC974251D277C00EF69F0 /* AppDelegate.m in Sources */,
-				4F5EC99D251D3E1700EF69F0 /* extension.h in Sources */,
+				4F26C7EE251E439700050C2A /* Thread.cpp in Sources */,
+				4F26C7FF251E43BD00050C2A /* main.m in Sources */,
+				4F26C801251E43BD00050C2A /* magicmoves.c in Sources */,
+				4F5EC974251D277C00EF69F0 /* AppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

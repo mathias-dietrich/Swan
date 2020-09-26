@@ -38,7 +38,6 @@ void reply(string cmd){
     std::cout  << cmd << "\n" << std::endl;
 }
 
-
 int main(int argc, char* argv[])
 {
     string startfen ="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";

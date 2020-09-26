@@ -35,7 +35,6 @@ using namespace std;
 class Engine{
 public:
     
-    
     Engine(){
         instance = this;
         initmagicmoves();
@@ -43,6 +42,21 @@ public:
     
     ~Engine(){
         
+    }
+    
+    vector<int> getMoves(int pos, int b[]){
+        TBoard board;
+        for(int i=0;i<64;i++){
+            board.bb.squares[i] = (EPiece)b[i];
+        }
+        vector<int> moves;
+        moves.push_back(20);
+        moves.push_back(28);
+        return moves;
+    }
+    
+    string getTestString(){
+        return "Hello from c+++";
     }
     
     void test(){

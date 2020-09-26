@@ -9,6 +9,26 @@
 
 @implementation Field
 
+- (void)findMoves:(int)pos  {
+    if(pos<0){
+        for(int i=0; i < 64; ++i){
+            activeTo[i] = -1;
+        }
+        return;
+    }
+
+    int *b = new int[64];
+    for(int i=0;i<64;i++){
+        b[i] = pieces[i];
+    }
+    
+    movearray a = [wrapper getMoves:pos board:b];
+    for(int i=0; i < 64; ++i){
+        activeTo[i] = a.moves[i];
+    }
+    
+}
+
 - (void)mouseDown:(NSEvent *)theEvent {
     NSPoint curPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     int x = curPoint.x-BORDER;
@@ -31,12 +51,14 @@
         if(activeFrom == hit){
             activeFrom = -1;
             isSelected = false;
+            [self findMoves:-1];
         }else{
             // select From
             if(activeFrom == -1){
                 if(pieces[hit] == EMPTY){
                     activeFrom = -1;
                     isSelected = false;
+                    [self findMoves:-1];
                     [self setNeedsDisplay:YES];
                     return;
                 }
@@ -45,6 +67,7 @@
                 if(nextToMove==WHITE && pieces[hit] > 6 ){
                     activeFrom = -1;
                     isSelected = false;
+                    [self findMoves:-1];
                     [self setNeedsDisplay:YES];
                     return;
                 }
@@ -52,12 +75,14 @@
                 if(nextToMove==BLACK && pieces[hit] < 7 ){
                     activeFrom = -1;
                     isSelected = false;
+                    [self findMoves:-1];
                     [self setNeedsDisplay:YES];
                     return;
                 }
                 
                 activeFrom = hit;
                 isSelected = true;
+                [self findMoves:hit];
             }else{
                 // Select to
                 
@@ -65,14 +90,25 @@
                 // handle  move
                 // test
                 // make
-                enum piece p = pieces[activeFrom];
-                pieces[activeFrom] = EMPTY;
-                pieces[hit] = p;
-                activeFrom =-1;
-                if(nextToMove == WHITE){
-                    nextToMove = BLACK;
-                }else{
-                    nextToMove = WHITE;
+                // check move is valid
+                bool found = false;
+                for(int i=0;i<64;i++){
+                    if(hit == activeTo[i]){
+                        found = true;
+                        break;
+                    }
+                }
+                if(found){
+                    enum piece p = pieces[activeFrom];
+                    pieces[activeFrom] = EMPTY;
+                    pieces[hit] = p;
+                    activeFrom =-1;
+                    if(nextToMove == WHITE){
+                        nextToMove = BLACK;
+                    }else{
+                        nextToMove = WHITE;
+                    }
+                    [self findMoves:-1];
                 }
             }
         }
@@ -149,6 +185,8 @@
     if(needsInit){
         [self setFen: @""];
         needsInit = false;
+        wrapper = [Wrapper alloc];
+        NSLog([wrapper getHelloString]);
     }
    
     NSSize size = NSMakeSize(77,77);
