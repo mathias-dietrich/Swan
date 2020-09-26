@@ -22,7 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4F26C7CB251E39D300050C2A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../Swan/main.cpp; sourceTree = "<group>"; };
 		4F26C7D0251E39D400050C2A /* Field.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Field.h; sourceTree = "<group>"; };
 		4F26C7D3251E39D400050C2A /* Field.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Field.mm; sourceTree = "<group>"; };
 		4F26C7E5251E3AB800050C2A /* Wrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wrapper.h; sourceTree = "<group>"; };
@@ -110,7 +109,6 @@
 				4F26C7E6251E3AB800050C2A /* Wrapper.mm */,
 				4F5EC977251D277E00EF69F0 /* MainMenu.xib */,
 				4F5EC97A251D277E00EF69F0 /* Info.plist */,
-				4F26C7CB251E39D300050C2A /* main.cpp */,
 				4F5EC97B251D277E00EF69F0 /* main.m */,
 				4F26C7D0251E39D400050C2A /* Field.h */,
 				4F26C7D3251E39D400050C2A /* Field.mm */,

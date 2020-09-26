@@ -8,35 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		4F317C342517A94900EF2C6D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F317C332517A94900EF2C6D /* main.cpp */; };
-		4F5EC963251CE78F00EF69F0 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC961251CE78F00EF69F0 /* Thread.cpp */; };
-		4FE0199C251A26340065F6FA /* magicmoves.c in Sources */ = {isa = PBXBuildFile; fileRef = 4FE0199B251A26340065F6FA /* magicmoves.c */; };
-		4FE46C482519347D0041B289 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE46C472519347D0041B289 /* Engine.cpp */; };
-		4FE46C4D25193A540041B289 /* Global.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE46C4B25193A540041B289 /* Global.cpp */; };
+		4FFDA4E5251F1AA400858B6A /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FFDA4E1251F1AA400858B6A /* Thread.cpp */; };
+		4FFDA4E9251F1ABF00858B6A /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FFDA4E7251F1ABF00858B6A /* Engine.cpp */; };
+		4FFDA4ED251F1ACE00858B6A /* Global.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FFDA4EB251F1ACE00858B6A /* Global.cpp */; };
+		4FFDA4F2251F1AE000858B6A /* magicmoves.c in Sources */ = {isa = PBXBuildFile; fileRef = 4FFDA4F0251F1AE000858B6A /* magicmoves.c */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		4F2A6EA8251E0517000232FA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F2A6EA3251E0517000232FA /* SwanUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4F5EC96F251D277C00EF69F0;
-			remoteInfo = SwanUI;
-		};
-		4F2A6EAE251E0519000232FA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F2A6EAA251E0519000232FA /* SwanUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4F5EC96F251D277C00EF69F0;
-			remoteInfo = SwanUI;
-		};
-		4F5EC9A5251E04BE00EF69F0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F5EC9A1251E04BE00EF69F0 /* SwanUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4F5EC96F251D277C00EF69F0;
-			remoteInfo = SwanUI;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		4F317C2E2517A94900EF2C6D /* CopyFiles */ = {
@@ -51,22 +27,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F2A6EA3251E0517000232FA /* SwanUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwanUI.xcodeproj; path = SwanUI/SwanUI.xcodeproj; sourceTree = "<group>"; };
-		4F2A6EAA251E0519000232FA /* SwanUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwanUI.xcodeproj; path = SwanUI/SwanUI.xcodeproj; sourceTree = "<group>"; };
 		4F317C302517A94900EF2C6D /* Swan */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Swan; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F317C332517A94900EF2C6D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		4F5EC961251CE78F00EF69F0 /* Thread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
-		4F5EC962251CE78F00EF69F0 /* Thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
-		4F5EC9A1251E04BE00EF69F0 /* SwanUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwanUI.xcodeproj; path = SwanUI/SwanUI.xcodeproj; sourceTree = "<group>"; };
-		4F971E0F2517C6B2007BF2F1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
-		4F971E112517C71A007BF2F1 /* Board.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
-		4F971E152517D02F007BF2F1 /* Engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
-		4FE0199A251A26340065F6FA /* magicmoves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = magicmoves.h; sourceTree = "<group>"; };
-		4FE0199B251A26340065F6FA /* magicmoves.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = magicmoves.c; sourceTree = "<group>"; };
-		4FE0199E251A2A370065F6FA /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
-		4FE46C472519347D0041B289 /* Engine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
-		4FE46C4B25193A540041B289 /* Global.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Global.cpp; sourceTree = "<group>"; };
-		4FE46C4C25193A540041B289 /* Global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
+		4FFDA4E0251F1AA400858B6A /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = SwanUI/SwanUI/Thread.h; sourceTree = SOURCE_ROOT; };
+		4FFDA4E1251F1AA400858B6A /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Thread.cpp; path = SwanUI/SwanUI/Thread.cpp; sourceTree = SOURCE_ROOT; };
+		4FFDA4E2251F1AA400858B6A /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = SwanUI/SwanUI/Types.h; sourceTree = SOURCE_ROOT; };
+		4FFDA4E7251F1ABF00858B6A /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = SwanUI/SwanUI/Engine.cpp; sourceTree = SOURCE_ROOT; };
+		4FFDA4E8251F1ABF00858B6A /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = SwanUI/SwanUI/Engine.h; sourceTree = SOURCE_ROOT; };
+		4FFDA4EB251F1ACE00858B6A /* Global.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Global.cpp; path = SwanUI/SwanUI/Global.cpp; sourceTree = SOURCE_ROOT; };
+		4FFDA4EC251F1ACE00858B6A /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Global.h; path = SwanUI/SwanUI/Global.h; sourceTree = SOURCE_ROOT; };
+		4FFDA4EF251F1AE000858B6A /* magicmoves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = magicmoves.h; path = SwanUI/SwanUI/magicmoves.h; sourceTree = SOURCE_ROOT; };
+		4FFDA4F0251F1AE000858B6A /* magicmoves.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = magicmoves.c; path = SwanUI/SwanUI/magicmoves.c; sourceTree = SOURCE_ROOT; };
+		4FFDA4F1251F1AE000858B6A /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = SwanUI/SwanUI/Log.h; sourceTree = SOURCE_ROOT; };
+		4FFDA4F6251F1B2400858B6A /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Board.h; path = SwanUI/SwanUI/Board.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,28 +53,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4F2A6EA4251E0517000232FA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				4F2A6EA9251E0517000232FA /* SwanUI.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		4F2A6EAB251E0519000232FA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				4F2A6EAF251E0519000232FA /* SwanUI.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		4F317C272517A94900EF2C6D = {
 			isa = PBXGroup;
 			children = (
-				4F5EC9A1251E04BE00EF69F0 /* SwanUI.xcodeproj */,
-				4F2A6EA3251E0517000232FA /* SwanUI.xcodeproj */,
-				4F2A6EAA251E0519000232FA /* SwanUI.xcodeproj */,
 				4F317C322517A94900EF2C6D /* Swan */,
 				4F317C312517A94900EF2C6D /* Products */,
 			);
@@ -118,28 +72,20 @@
 		4F317C322517A94900EF2C6D /* Swan */ = {
 			isa = PBXGroup;
 			children = (
-				4FE0199E251A2A370065F6FA /* Log.h */,
-				4FE0199B251A26340065F6FA /* magicmoves.c */,
-				4FE0199A251A26340065F6FA /* magicmoves.h */,
+				4FFDA4F6251F1B2400858B6A /* Board.h */,
+				4FFDA4F1251F1AE000858B6A /* Log.h */,
+				4FFDA4F0251F1AE000858B6A /* magicmoves.c */,
+				4FFDA4EF251F1AE000858B6A /* magicmoves.h */,
+				4FFDA4EB251F1ACE00858B6A /* Global.cpp */,
+				4FFDA4EC251F1ACE00858B6A /* Global.h */,
+				4FFDA4E7251F1ABF00858B6A /* Engine.cpp */,
+				4FFDA4E8251F1ABF00858B6A /* Engine.h */,
+				4FFDA4E1251F1AA400858B6A /* Thread.cpp */,
+				4FFDA4E0251F1AA400858B6A /* Thread.h */,
+				4FFDA4E2251F1AA400858B6A /* Types.h */,
 				4F317C332517A94900EF2C6D /* main.cpp */,
-				4F971E0F2517C6B2007BF2F1 /* Types.h */,
-				4F971E112517C71A007BF2F1 /* Board.h */,
-				4F971E152517D02F007BF2F1 /* Engine.h */,
-				4FE46C472519347D0041B289 /* Engine.cpp */,
-				4FE46C4B25193A540041B289 /* Global.cpp */,
-				4FE46C4C25193A540041B289 /* Global.h */,
-				4F5EC961251CE78F00EF69F0 /* Thread.cpp */,
-				4F5EC962251CE78F00EF69F0 /* Thread.h */,
 			);
 			path = Swan;
-			sourceTree = "<group>";
-		};
-		4F5EC9A2251E04BE00EF69F0 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				4F5EC9A6251E04BE00EF69F0 /* SwanUI.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,20 +132,6 @@
 			mainGroup = 4F317C272517A94900EF2C6D;
 			productRefGroup = 4F317C312517A94900EF2C6D /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 4F5EC9A2251E04BE00EF69F0 /* Products */;
-					ProjectRef = 4F5EC9A1251E04BE00EF69F0 /* SwanUI.xcodeproj */;
-				},
-				{
-					ProductGroup = 4F2A6EA4251E0517000232FA /* Products */;
-					ProjectRef = 4F2A6EA3251E0517000232FA /* SwanUI.xcodeproj */;
-				},
-				{
-					ProductGroup = 4F2A6EAB251E0519000232FA /* Products */;
-					ProjectRef = 4F2A6EAA251E0519000232FA /* SwanUI.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				4F317C2F2517A94900EF2C6D /* Swan */,
@@ -207,40 +139,16 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		4F2A6EA9251E0517000232FA /* SwanUI.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SwanUI.app;
-			remoteRef = 4F2A6EA8251E0517000232FA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4F2A6EAF251E0519000232FA /* SwanUI.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SwanUI.app;
-			remoteRef = 4F2A6EAE251E0519000232FA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4F5EC9A6251E04BE00EF69F0 /* SwanUI.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SwanUI.app;
-			remoteRef = 4F5EC9A5251E04BE00EF69F0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXSourcesBuildPhase section */
 		4F317C2C2517A94900EF2C6D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FE0199C251A26340065F6FA /* magicmoves.c in Sources */,
-				4FE46C4D25193A540041B289 /* Global.cpp in Sources */,
 				4F317C342517A94900EF2C6D /* main.cpp in Sources */,
-				4F5EC963251CE78F00EF69F0 /* Thread.cpp in Sources */,
-				4FE46C482519347D0041B289 /* Engine.cpp in Sources */,
+				4FFDA4ED251F1ACE00858B6A /* Global.cpp in Sources */,
+				4FFDA4E9251F1ABF00858B6A /* Engine.cpp in Sources */,
+				4FFDA4F2251F1AE000858B6A /* magicmoves.c in Sources */,
+				4FFDA4E5251F1AA400858B6A /* Thread.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
