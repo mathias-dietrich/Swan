@@ -9,6 +9,22 @@
 
 @implementation Field
 
+enum piece pieces[64];
+int activeFrom;
+int activeTo[64];
+int BORDER =20;
+int hit;
+bool needsInit = true;
+bool isSelected;
+moveStatus nextToMove;
+Wrapper * wrapper;
+bool isFliped = false;
+
+- (void)flip{
+    isFliped = !isFliped;
+    [self setNeedsDisplay:YES];
+}
+
 - (void)findMoves:(int)pos  {
     if(pos<0){
         for(int i=0; i < 64; ++i){
@@ -26,7 +42,6 @@
     for(int i=0; i < 64; ++i){
         activeTo[i] = a.moves[i];
     }
-    
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {

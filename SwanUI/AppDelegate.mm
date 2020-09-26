@@ -14,13 +14,24 @@
 
 @implementation AppDelegate
 
+- (IBAction)start:(id)sender{
+    NSLog(@"start in!");
+}
+
+- (IBAction)flip:(id)sender{
+    NSLog(@"flip in!");
+    [field flip];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+    NSLog(@">applicationDidFinishLaunching");
+
+    
 }
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    NSLog(@">applicationWillTerminate");
 }
 
 

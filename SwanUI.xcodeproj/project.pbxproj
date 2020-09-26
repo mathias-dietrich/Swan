@@ -62,7 +62,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4F26C7E0251E3A4900050C2A /* Engine */ = {
+		4F487CCC251F1EF0006C2901 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
 				4F26C7FE251E43BD00050C2A /* magicmoves.c */,
@@ -80,7 +80,7 @@
 				4F26C7EB251E439700050C2A /* Thread.h */,
 				4F26C7ED251E439700050C2A /* Types.h */,
 			);
-			path = Engine;
+			name = Engine;
 			sourceTree = "<group>";
 		};
 		4F5EC966251D277C00EF69F0 = {
@@ -102,6 +102,7 @@
 		4F5EC971251D277C00EF69F0 /* SwanUI */ = {
 			isa = PBXGroup;
 			children = (
+				4F487CCC251F1EF0006C2901 /* Engine */,
 				4F5EC988251D379D00EF69F0 /* pieces */,
 				4F5EC972251D277C00EF69F0 /* AppDelegate.h */,
 				4F5EC973251D277C00EF69F0 /* AppDelegate.mm */,
@@ -113,7 +114,6 @@
 				4F26C7D0251E39D400050C2A /* Field.h */,
 				4F26C7D3251E39D400050C2A /* Field.mm */,
 				4F5EC97D251D277E00EF69F0 /* SwanUI.entitlements */,
-				4F26C7E0251E3A4900050C2A /* Engine */,
 				4F5EC998251D39CD00EF69F0 /* Media.xcassets */,
 			);
 			path = SwanUI;

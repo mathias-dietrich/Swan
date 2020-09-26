@@ -7,7 +7,16 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+#import "Field.h"
 
+@interface AppDelegate : NSObject <NSApplicationDelegate>
+{
+    IBOutlet Field * field;
+    IBOutlet NSButton * btnStart;
+    IBOutlet NSButton * btnFlip;
+}
+
+- (IBAction)start:(id)sender;
+- (IBAction)flip:(id)sender;
 @end
 
