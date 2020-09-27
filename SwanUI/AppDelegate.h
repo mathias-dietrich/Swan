@@ -14,6 +14,8 @@
     IBOutlet Field * field;
     IBOutlet NSButton * btnStart;
     IBOutlet NSButton * btnFlip;
+    
+
 }
 
 - (IBAction)start:(id)sender;

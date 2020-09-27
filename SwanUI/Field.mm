@@ -11,11 +11,11 @@
 @implementation Field
 
 enum EPiece pieces[64];
-int activeFrom;
+int activeFrom = -1;
 int activeTo[64];
 int BORDER =20;
-int hit;
-bool isSelected;
+int hit =-1;
+bool isSelected = false;
 Color nextToMove;
 Wrapper * wrapper;
 bool isFliped = false;
@@ -29,6 +29,7 @@ vector<Ply> plies;
 
 - (void)setup{
     nextToMove = WHITE;
+    activeFrom = -1;
     [self setFen: @""];
     wrapper = [Wrapper alloc];
     [wrapper initWrapper];
@@ -61,7 +62,7 @@ vector<Ply> plies;
         Ply ply;
         ply.from = from;
         ply.to = to;
-        ply.str = posFromInt(from) + posFromInt(hit);
+        ply.str = posFromInt(from) + posFromInt(to);
         plies.push_back(ply);
         [self makemove:ply];
     }
@@ -72,12 +73,19 @@ vector<Ply> plies;
     pieces[ply.from] = EMPTY;
     pieces[ply.to] = p;
     
+
     if(nextToMove == WHITE){
         nextToMove = BLACK;
     }else{
         nextToMove = WHITE;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
+    
+        
+        NSString *png = [NSString stringWithCString: ply.str.c_str() encoding:[NSString defaultCStringEncoding]];
+        png = [@" " stringByAppendingString: png];
+        [mainView setGame:png];
+        
         [self setNeedsDisplay:YES];
     });
 }
@@ -202,6 +210,11 @@ vector<Ply> plies;
                     ply.from = activeFrom;
                     ply.to = hit;
                     ply.str = posFromInt(activeFrom) + posFromInt(hit);
+                    
+                    NSString *png = [NSString stringWithCString: ply.str.c_str() encoding:[NSString defaultCStringEncoding]];
+                    png = [@"\n1. " stringByAppendingString: png];
+                    [mainView setGame:png];
+                    
                     plies.push_back(ply);
                     TBoard board;
                    // board.bb.squares = pieces;
@@ -209,6 +222,9 @@ vector<Ply> plies;
                         board.squares[i] = pieces[i];
                     }
                     string fen = board.getFen(&board);
+            
+                    NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
+                    [mainView setFen:fens];
                     [wrapper findMove :fen];
                     activeFrom =-1;
                 }
@@ -265,7 +281,6 @@ vector<Ply> plies;
 
 - (NSImage *)imageResize:(NSImage*)anImage newSize:(NSSize)newSize {
     NSImage *sourceImage = anImage;
-    [sourceImage setScalesWhenResized:YES];
 
     // Report an error if the source isn't a valid image
     if (![sourceImage isValid]){

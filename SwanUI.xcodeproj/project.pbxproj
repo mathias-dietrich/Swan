@@ -19,6 +19,7 @@
 		4F5EC97C251D277E00EF69F0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC97B251D277E00EF69F0 /* main.m */; };
 		4F5EC989251D379D00EF69F0 /* pieces in Resources */ = {isa = PBXBuildFile; fileRef = 4F5EC988251D379D00EF69F0 /* pieces */; };
 		4F5EC999251D39CD00EF69F0 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F5EC998251D39CD00EF69F0 /* Media.xcassets */; };
+		4FCE7D6D252121D500B23611 /* MainView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE7D6C252121D500B23611 /* MainView.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,8 @@
 		4F5EC97D251D277E00EF69F0 /* SwanUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwanUI.entitlements; sourceTree = "<group>"; };
 		4F5EC988251D379D00EF69F0 /* pieces */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pieces; sourceTree = "<group>"; };
 		4F5EC998251D39CD00EF69F0 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		4FCE7D6A25211F4900B23611 /* MainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
+		4FCE7D6C252121D500B23611 /* MainView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainView.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 				4F26C7D3251E39D400050C2A /* Field.mm */,
 				4F5EC97D251D277E00EF69F0 /* SwanUI.entitlements */,
 				4F5EC998251D39CD00EF69F0 /* Media.xcassets */,
+				4FCE7D6A25211F4900B23611 /* MainView.h */,
+				4FCE7D6C252121D500B23611 /* MainView.mm */,
 			);
 			path = SwanUI;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 				4F26C7F8251E43AE00050C2A /* Global.cpp in Sources */,
 				4F26C7E7251E3AB800050C2A /* Wrapper.mm in Sources */,
 				4F5EC97C251D277E00EF69F0 /* main.m in Sources */,
+				4FCE7D6D252121D500B23611 /* MainView.mm in Sources */,
 				4F26C7EE251E439700050C2A /* Thread.cpp in Sources */,
 				4F26C7FF251E43BD00050C2A /* main.m in Sources */,
 				4F26C801251E43BD00050C2A /* magicmoves.c in Sources */,

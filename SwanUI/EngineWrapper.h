@@ -46,6 +46,9 @@ public:
     }
     
     void runListener(){
+        toEngine("uci\n");
+        toEngine("isready\n");
+        toEngine("ucinewgame\n");
        while(isPRunning){
           char buf[500];
           int n;
@@ -153,13 +156,8 @@ public:
       int p = createChild("/Users/mdietric/Swan/engines/stockfish");
 
         pthread_create(&threads[0], NULL,  staticFunction, this);
-        
-        sleep(1);
-        toEngine("uci\n");
-  
-        toEngine("isready\n");
 
-        toEngine("ucinewgame\n");
+
     }
     
     void close(){

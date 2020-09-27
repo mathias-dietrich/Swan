@@ -13,18 +13,18 @@
 #import "Wrapper.h"
 #import "Types.h"
 #import "Global.h"
-
+#import "MainView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Field : NSView{
-   
+    IBOutlet MainView * mainView;
+    string lastMove;
 }
 
 - (void)flip;
 - (void)setup;
 - (void)close;
-
 
 extern enum EPiece pieces[64];
 extern int activeFrom;
@@ -35,10 +35,9 @@ extern bool needsInit;
 extern bool isSelected;
 extern enum Color nextToMove;
 extern Wrapper * wrapper;
-
 extern bool isFliped;
-
 extern vector<Ply> plies;
+
 
 NS_ASSUME_NONNULL_END
 @end
