@@ -47,7 +47,7 @@ public:
     vector<int> getMoves(int pos, int b[]){
         TBoard board;
         for(int i=0;i<64;i++){
-            board.bb.squares[i] = (EPiece)b[i];
+            board.squares[i] = (EPiece)b[i];
         }
         vector<int> moves;
         moves.push_back(20);

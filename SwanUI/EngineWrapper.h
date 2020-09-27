@@ -31,7 +31,6 @@ bool isPRunning = true;
 int aStdinPipe[2];
 int aStdoutPipe[2];
 
-
 class EngineWrapper{
 public:
 
@@ -57,7 +56,6 @@ public:
               NSString *v = [NSString stringWithCString:reply.c_str() encoding:[NSString defaultCStringEncoding]];
               NSDictionary * userInfo = @{ @"move" : v};
               [[NSNotificationCenter defaultCenter] postNotificationName:@"cmove" object:nil  userInfo:userInfo];
-              
           }
        }
    }

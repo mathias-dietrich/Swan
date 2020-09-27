@@ -43,7 +43,6 @@ public:
         cout << pretty(board);
     }
 
-    
     void logBoard(TBoard * board){
         myfile << "  A B C D E F G H" << endl;
         for(int i=8; i>0; --i){
@@ -51,7 +50,7 @@ public:
             myfile  << " ";
             for(int x=0; x<8; ++x){
                 Square sq = (Square) (((i-1) * 8) + x);
-                switch(board->bb.squares[sq]){
+                switch(board->squares[sq]){
                     case B_PAWN:
                         myfile  << "p ";
                         break;

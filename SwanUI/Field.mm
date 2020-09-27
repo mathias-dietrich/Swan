@@ -206,7 +206,7 @@ vector<Ply> plies;
                     TBoard board;
                    // board.bb.squares = pieces;
                     for(int i=0;i<64;i++){
-                        board.bb.squares[i] = pieces[i];
+                        board.squares[i] = pieces[i];
                     }
                     string fen = board.getFen(&board);
                     [wrapper findMove :fen];

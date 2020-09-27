@@ -18,33 +18,6 @@
 using namespace std;
 
 /*******************************************************************
-  Holds the piece location status of the board in BitBoards per Piece
- *******************************************************************/
-struct TBoardBB
-{
-    // Holds the piece information per square
-    EPiece squares[SQ_H8+2];
-    
-    // Bit Boards for Pieces
-    TBitBoard pcs[B_KING+2];
-    
-    // Utility BitBoards
-    TBitBoard emptySquares;
-    TBitBoard occupiedSquares;
-    TBitBoard pcsOfColor[BLACK+1];
-};
-
-struct TBoardState
-{
-    int64 hash;
-    int lastTriggerEvent;// ply whith pawn move or capture
-    int castelingRights;
-    bool inCheck;
-    int repetitions;
-    Square enPassentSquare;
-};
-
-/*******************************************************************
  TBoard : a powerfull class that represents the actual board
  this class is responsible for legal move generation and move
  execution
@@ -52,23 +25,7 @@ struct TBoardState
 class TBoard
 {
 public:
-    TBoardBB bb;
-    TBoardState state;
     
-    Color sideToMove;
-    int currentPly;
-    
-    int b_enPasse =-1;
-    int w_enPasse=-1;
-    
-    bool w_casteS = true;
-    bool w_casteL= true;
-    bool b_casteS= true;
-    bool b_casteL= true;
-    
-    int rule50 = 0;
-    int halfmove =0;
-
     TBoard(){
         
     }
@@ -77,11 +34,38 @@ public:
         
     }
     
+    int64 hash;
+    int lastTriggerEvent;// ply whith pawn move or capture
+    int castelingRights = 1+2+4+8;
+    bool inCheck;
+    int repetitions;
+    Square enPassentSquare = SQ_NONE;
+    
+    // Holds the piece information per square
+    EPiece squares[SQ_H8+2];
+    
+    // Bit Boards for Pieces
+    TBitBoard pcs[B_KING+2];
+    TBitBoard emptySquares;
+    TBitBoard occupiedSquares;
+    TBitBoard pcsOfColor[BLACK+1];
+    
+    Color sideToMove;
+    int currentPly;
+    
+   // bool w_casteS = true;
+    //  bool w_casteL= true;
+    // bool b_casteS= true;
+    //  bool b_casteL= true;
+    
+    int rule50 = 0;
+    int halfmove =0;
+
     void move(string move){
         Square from = getPosFromStr(move.substr(0,2));
         Square to = getPosFromStr(move.substr(2,2));
-        bb.squares[to] =  bb.squares[from];
-        bb.squares[from] = EMPTY;
+        squares[to] =  squares[from];
+        squares[from] = EMPTY;
     }
     
     void print(){
@@ -91,7 +75,7 @@ public:
             myfile  << " ";
             for(int x=0; x<8; ++x){
                 Square sq = (Square) (((i-1) * 8) + x);
-                switch(bb.squares[sq]){
+                switch(squares[sq]){
                     case B_PAWN:
                         myfile  << "p ";
                         break;
@@ -157,7 +141,7 @@ public:
            for(int y=7; y>-1; y--){
                for(int x=0; x < 8; x++){
                    
-                   int field = board->bb.squares[x  + y * 8];
+                   int field = board->squares[x  + y * 8];
                    
                    if(field!=0 && count >0){
                        fen += std::to_string(count);
@@ -235,19 +219,19 @@ public:
            }
            fen += " ";
         
-           if(!board->w_casteS  && !board->w_casteS && !board->b_casteS && !board->b_casteL){
+           if(board->castelingRights == 0){
                fen += "-";
            }
-           if(board->w_casteS){
+           if(board->castelingRights & 1){
                fen += "K";
            }
-           if(board->w_casteL){
+           if(board->castelingRights & 2){
                fen += "Q";
            }
-           if(board->b_casteS){
+           if(board->castelingRights & 4){
                fen += "k";
            }
-           if(board->b_casteL){
+           if(board->castelingRights & 8){
                fen += "q";
            }
            
@@ -255,13 +239,10 @@ public:
            string temp("abcdefgh");
            stringstream ss;
            
-           if(board->w_enPasse > 0){
-               int r = (board->w_enPasse - 8) % 8;
-               ss << temp.at(r) << "3";
-               fen += ss.str();
-           }else if(board->b_enPasse > 0){
-               int r = (board->b_enPasse + 8) % 8;
-               ss << temp.at(r) << "6";
+           if(board->enPassentSquare != SQ_NONE){
+               int r = (board->enPassentSquare - 8) % 8;
+               int f = (board->enPassentSquare - 8) / 8;
+               ss << temp.at(r)  << to_string(f*8);
                fen += ss.str();
            }else{
                fen += "-";
@@ -286,7 +267,7 @@ public:
         std::vector<std::string> strList(begin, end);
  
         // Empty the board quares
-        for (sq=SQ_A1;sq <= SQ_H8;sq++) bb.squares[sq] = EMPTY;
+        for (sq=SQ_A1;sq <= SQ_H8;sq++) squares[sq] = EMPTY;
         // read the board - translate each loop idx into a square
         j = 1; i = 0;
         while ((j<=64) && (i<=strList[0].length()))
@@ -298,18 +279,18 @@ public:
             sq = (Square) (((aRank-1)*8) + (aFile - 1));
             switch (letter)
             {
-                case 'p' : bb.squares[sq] = B_PAWN; break;
-                case 'r' : bb.squares[sq] = B_ROOK; break;
-                case 'n' : bb.squares[sq] = B_KNIGHT; break;
-                case 'b' : bb.squares[sq] = B_BISHOP; break;
-                case 'q' : bb.squares[sq] = B_QUEEN; break;
-                case 'k' : bb.squares[sq] = B_KING; break;
-                case 'P' : bb.squares[sq] = W_PAWN; break;
-                case 'R' : bb.squares[sq] = W_ROOK; break;
-                case 'N' : bb.squares[sq] = W_KNIGHT; break;
-                case 'B' : bb.squares[sq] = W_BISHOP; break;
-                case 'Q' : bb.squares[sq] = W_QUEEN; break;
-                case 'K' : bb.squares[sq] = W_KING; break;
+                case 'p' : squares[sq] = B_PAWN; break;
+                case 'r' : squares[sq] = B_ROOK; break;
+                case 'n' : squares[sq] = B_KNIGHT; break;
+                case 'b' : squares[sq] = B_BISHOP; break;
+                case 'q' : squares[sq] = B_QUEEN; break;
+                case 'k' : squares[sq] = B_KING; break;
+                case 'P' : squares[sq] = W_PAWN; break;
+                case 'R' : squares[sq] = W_ROOK; break;
+                case 'N' : squares[sq] = W_KNIGHT; break;
+                case 'B' : squares[sq] = W_BISHOP; break;
+                case 'Q' : squares[sq] = W_QUEEN; break;
+                case 'K' : squares[sq] = W_KING; break;
                 case '/' : j--; break;
                 case '1' : break;
                 case '2' : j++; break;
@@ -333,13 +314,13 @@ public:
         // TODO
         string castling = strList[2];
         string enPasse = strList[3];
+        
         if(enPasse != "-"){
-            state.enPassentSquare = (Square)std::stoi(enPasse);
+            enPassentSquare = (Square)std::stoi(enPasse);
         }
        
         string halfMove = strList[4];
         string fullMove = strList[5];
-        
         return 0;
     }
         
