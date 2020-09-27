@@ -23,3 +23,12 @@ using namespace std;
 
 extern ofstream myfile;
 
+class Listener{
+public:
+    virtual void listen(string msg) = 0;
+};
+
+extern Listener * listener;
+
+
+

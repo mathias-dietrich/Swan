@@ -30,6 +30,7 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [field close];
     NSLog(@">applicationWillTerminate");
 }
 

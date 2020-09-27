@@ -8,3 +8,5 @@
 #include "Global.h"
 
 std::ofstream myfile;
+
+Listener * listener;

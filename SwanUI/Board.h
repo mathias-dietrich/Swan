@@ -39,9 +39,9 @@ struct TBoardState
     int64 hash;
     int lastTriggerEvent;// ply whith pawn move or capture
     int castelingRights;
-    Square enPassentSquare;
     bool inCheck;
     int repetitions;
+    Square enPassentSquare;
 };
 
 /*******************************************************************
@@ -57,6 +57,17 @@ public:
     
     Color sideToMove;
     int currentPly;
+    
+    int b_enPasse =-1;
+    int w_enPasse=-1;
+    
+    bool w_casteS = true;
+    bool w_casteL= true;
+    bool b_casteS= true;
+    bool b_casteL= true;
+    
+    int rule50 = 0;
+    int halfmove =0;
 
     TBoard(){
         
@@ -138,6 +149,129 @@ public:
         }
         myfile << "  A B C D E F G H" << endl;
     }
+    
+    string getFen(TBoard * board){
+           string fen = "";
+           int count = 0;
+           
+           for(int y=7; y>-1; y--){
+               for(int x=0; x < 8; x++){
+                   
+                   int field = board->bb.squares[x  + y * 8];
+                   
+                   if(field!=0 && count >0){
+                       fen += std::to_string(count);
+                       count = 0;
+                   }
+                   
+                   switch(field){
+                           
+                       case W_PAWN:
+                           fen += "P";
+                           break;
+                           
+                       case W_ROOK:
+                           fen += "R";
+                           break;
+                           
+                       case W_KNIGHT:
+                           fen += "N";
+                           break;
+                           
+                       case W_BISHOP:
+                           fen += "B";
+                           break;
+                           
+                       case W_QUEEN:
+                           fen += "Q";
+                           break;
+                           
+                       case W_KING:
+                           fen += "K";
+                           break;
+                           
+                       case B_PAWN:
+                           fen += "p";
+                           break;
+                           
+                       case B_ROOK:
+                           fen += "r";
+                           break;
+                           
+                       case B_KNIGHT:
+                           fen += "n";
+                           break;
+                           
+                       case B_BISHOP:
+                           fen += "b";
+                           break;
+                           
+                       case B_QUEEN:
+                           fen += "q";
+                           break;
+                           
+                       case B_KING:
+                           fen += "k";
+                           break;
+                           
+                       case 0:
+                           count++;
+                           break;
+                   }
+               }
+               if(y>-1 && count >0){
+                   fen += std::to_string(count);
+                   count = 0;
+               }
+               if(y>0){
+                   fen += "/";
+               }
+           }
+           fen += " ";
+        if(board->sideToMove == WHITE){
+               fen += "w";
+           }else{
+               fen += "b";
+           }
+           fen += " ";
+        
+           if(!board->w_casteS  && !board->w_casteS && !board->b_casteS && !board->b_casteL){
+               fen += "-";
+           }
+           if(board->w_casteS){
+               fen += "K";
+           }
+           if(board->w_casteL){
+               fen += "Q";
+           }
+           if(board->b_casteS){
+               fen += "k";
+           }
+           if(board->b_casteL){
+               fen += "q";
+           }
+           
+           fen += " ";
+           string temp("abcdefgh");
+           stringstream ss;
+           
+           if(board->w_enPasse > 0){
+               int r = (board->w_enPasse - 8) % 8;
+               ss << temp.at(r) << "3";
+               fen += ss.str();
+           }else if(board->b_enPasse > 0){
+               int r = (board->b_enPasse + 8) % 8;
+               ss << temp.at(r) << "6";
+               fen += ss.str();
+           }else{
+               fen += "-";
+           }
+           fen += " ";
+           fen += std::to_string(board->rule50);
+           fen += " ";
+           fen += std::to_string(board->halfmove);
+           return fen;
+       }
     
     int setFEN(string aFEN)
     {

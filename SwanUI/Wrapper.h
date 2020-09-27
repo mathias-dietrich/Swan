@@ -9,11 +9,14 @@
 #define HEADERFILE_H
 
 #import <Foundation/Foundation.h>
+#import "Types.h"
+#import "Global.h"
 
 
-@interface Wrapper : NSObject
+@protocol Listener <NSObject>
 
 @end
+
 
 typedef struct
 {
@@ -21,9 +24,16 @@ int moves[64];
 int board[64];
 } movearray;
 
-@interface Wrapper ()
+@interface Wrapper : NSObject<Listener>
+
+
+void listen(string msg);
+- (void)findMove :(string) fen;
+- (void)initWrapper;
+- (void)close;
 - (NSString *)getHelloString;
 - (movearray)getMoves:(int) pos board: (int []) board;
+
 @end
 
 #endif

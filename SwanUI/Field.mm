@@ -6,24 +6,80 @@
 //
 
 #import "Field.h"
+#import "Board.h"
 
 @implementation Field
 
-enum piece pieces[64];
+enum EPiece pieces[64];
 int activeFrom;
 int activeTo[64];
 int BORDER =20;
 int hit;
 bool isSelected;
-moveStatus nextToMove;
+Color nextToMove;
 Wrapper * wrapper;
 bool isFliped = false;
+vector<Ply> plies;
+
+
+- (void)close{
+    [wrapper close];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)setup{
     nextToMove = WHITE;
     [self setFen: @""];
     wrapper = [Wrapper alloc];
+    [wrapper initWrapper];
+    
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(receivingMethodOnListener:)
+        name:@"cmove"
+        object:nil];
+    
     [self setNeedsDisplay:YES];
+}
+
+- (void) receivingMethodOnListener:(NSNotification *) notification{
+    NSDictionary *dict = [notification userInfo];
+    NSString *move = dict[@"move"];
+    
+    int pos = [move rangeOfString:@"bestmove"].location;
+    if(pos > -1){
+        NSRange r = NSMakeRange(pos,14);
+        NSString *m = [move substringWithRange:r];
+        NSLog(m);
+        r = NSMakeRange(9,2);
+        NSString  *fr = [m substringWithRange:r];
+        Square from = getPosFromStr(std::string([fr UTF8String]));
+        
+        r = NSMakeRange(11,2);
+        NSString  *tr = [m substringWithRange:r];
+        Square to = getPosFromStr(std::string([tr UTF8String]));
+        Ply ply;
+        ply.from = from;
+        ply.to = to;
+        ply.str = posFromInt(from) + posFromInt(hit);
+        plies.push_back(ply);
+        [self makemove:ply];
+    }
+}
+
+- (void)makemove:(Ply)ply{
+    enum EPiece p = pieces[ply.from];
+    pieces[ply.from] = EMPTY;
+    pieces[ply.to] = p;
+    
+    if(nextToMove == WHITE){
+        nextToMove = BLACK;
+    }else{
+        nextToMove = WHITE;
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay:YES];
+    });
 }
 
 - (void)flip{
@@ -61,10 +117,10 @@ bool isFliped = false;
     }else{
         hit = file + rank * 8 ;
     }
-   
     [self setNeedsDisplay:YES];
 }
- 
+
+
 - (void)mouseUp:(NSEvent *)theEvent {
     NSPoint curPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     int x = curPoint.x-BORDER;
@@ -129,17 +185,32 @@ bool isFliped = false;
                         break;
                     }
                 }
+                
+                found = true; //TODO faking movegen - allow all Moves
                 if(found){
-                    enum piece p = pieces[activeFrom];
+                    enum EPiece p = pieces[activeFrom];
                     pieces[activeFrom] = EMPTY;
                     pieces[hit] = p;
-                    activeFrom =-1;
+                    
                     if(nextToMove == WHITE){
                         nextToMove = BLACK;
                     }else{
                         nextToMove = WHITE;
                     }
                     [self findMoves:-1];
+                    Ply ply;
+                    ply.from = activeFrom;
+                    ply.to = hit;
+                    ply.str = posFromInt(activeFrom) + posFromInt(hit);
+                    plies.push_back(ply);
+                    TBoard board;
+                   // board.bb.squares = pieces;
+                    for(int i=0;i<64;i++){
+                        board.bb.squares[i] = pieces[i];
+                    }
+                    string fen = board.getFen(&board);
+                    [wrapper findMove :fen];
+                    activeFrom =-1;
                 }
             }
         }

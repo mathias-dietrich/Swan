@@ -15,8 +15,6 @@
 typedef long long TBitBoard;
 typedef long long int64;
 
-
-
 enum Color {
     WHITE = 0,
     BLACK = 1,
@@ -76,6 +74,20 @@ inline File getFile(char x){
 
 enum Rank {
   RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NB
+};
+
+inline string posFromInt(int pos){
+    int rank = pos / 8 + 1;
+    int file = pos % 8;
+    char c = (char)file +97;
+    return c +  to_string(rank);
+}
+
+
+struct Ply{
+    int from;
+    int to;
+    string str;
 };
 
 inline Rank getRank(char x){
