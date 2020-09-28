@@ -220,12 +220,14 @@ bool bCastlingS = true;
                         pieces[SQ_H1] = EMPTY;
                         pieces[SQ_F1] = W_ROOK;
                         wCastlingS = false;
+                        wCastlingL = false;
                     } // long
                     if(ply.from == SQ_E1  && ply.to == SQ_C1 && pieces[ply.to] == W_KING){
                         ply.str = "o-o-o";
                         pieces[SQ_A1] = EMPTY;
                         pieces[SQ_D1] = W_ROOK;
                         wCastlingL = false;
+                        wCastlingS = false;
                     }
                     // Black short
                     if(ply.from == SQ_E8  && ply.to == SQ_G8 && pieces[ply.to] == B_KING){
@@ -233,12 +235,14 @@ bool bCastlingS = true;
                         pieces[SQ_H8] = EMPTY;
                         pieces[SQ_F8] = B_ROOK;
                         bCastlingS = false;
+                        bCastlingL = false;
                     }// long
                     if(ply.from == SQ_E8  && ply.to == SQ_C8 && pieces[ply.to] == B_KING){
                         ply.str = "o-o-o";
                         pieces[SQ_A8] = EMPTY;
                         pieces[SQ_D8] = B_ROOK;
                         bCastlingL = false;
+                        bCastlingS = false;
                     }
                     
                     NSString *png = [NSString stringWithCString: ply.str.c_str() encoding:[NSString defaultCStringEncoding]];
