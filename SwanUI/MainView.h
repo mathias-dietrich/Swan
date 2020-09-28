@@ -17,6 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
     IBOutlet NSTextField * fenField;
     IBOutlet NSTextField * gameField;
     
+    IBOutlet NSTextField * timeW;
+    IBOutlet NSTextField * timeB;
+    IBOutlet NSTextField * engineInfo;
+    
+    IBOutlet NSComboBox * playerW;
+    IBOutlet NSComboBox * playerB;
+    IBOutlet NSComboBox * gameType;
+    
     IBOutlet NSButton * btnTop;
     IBOutlet NSButton * btnBack;
     IBOutlet NSButton * btnStop;
@@ -37,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
     IBOutlet NSButton * btnClear;
 }
 
-
+- (void)call:(NSString*)b;
 - (void)setGame:(NSString*)png;
 
 - (IBAction)top:(id)sender;
@@ -58,7 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)showDebug:(id)sender;
 - (IBAction)clearDebug:(id)sender;
 - (IBAction)clearBoard:(id)sender;
-
 - (IBAction)setKingW:(id)sender;
 - (IBAction)setKingB:(id)sender;
 - (IBAction)setQueenW:(id)sender;

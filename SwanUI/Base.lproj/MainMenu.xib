@@ -36,8 +36,14 @@
                 <outlet property="btnSettings" destination="d4t-Sb-1VP" id="cBp-SI-6DI"/>
                 <outlet property="btnStop" destination="jP4-N5-0jQ" id="NLr-5n-Iyz"/>
                 <outlet property="btnTop" destination="nBH-d5-oV9" id="jio-9b-uRh"/>
+                <outlet property="engineInfo" destination="BUv-AY-Mua" id="BQM-oY-KN1"/>
                 <outlet property="fenField" destination="yd0-rm-da6" id="oSU-dG-tAi"/>
                 <outlet property="gameField" destination="6OB-Fw-5Tx" id="u7N-Oh-ZMT"/>
+                <outlet property="gameType" destination="69o-Ox-arY" id="TS6-AY-Gpu"/>
+                <outlet property="playerB" destination="zj7-I8-01r" id="E9a-Kp-eRF"/>
+                <outlet property="playerW" destination="1sG-nB-Kfw" id="lQm-oJ-ujX"/>
+                <outlet property="timeB" destination="PXC-kC-OOT" id="Vy3-mu-XCS"/>
+                <outlet property="timeW" destination="fAm-uP-r4c" id="YVc-SO-UNR"/>
             </connections>
         </customObject>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">

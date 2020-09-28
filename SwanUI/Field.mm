@@ -47,6 +47,63 @@ bool isFliped = false;
     }
 }
 
+
+- (void) receivingBtn:(NSNotification *) notification{
+    NSDictionary *dict = [notification userInfo];
+    NSString *btnPressed = dict[@"btn"];
+    if([btnPressed  isEqual: @"top"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"back"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"forw"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"end"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"analyse"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"hint"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"savePGN"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"loadPGN"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"clearBoard"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"setBoard"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"settings"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"setFen"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"showPGN"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"showDb"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"showAnalytics"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"showDebug"]){
+        return;
+    }
+    if([btnPressed  isEqual: @"showClear"]){
+        return;
+    }
+}
+
 - (void)makemove:(Ply)ply{
     enum EPiece p = board.squares[ply.from];
     board.squares[ply.from] = EMPTY;
@@ -343,6 +400,12 @@ bool isFliped = false;
         addObserver:self
         selector:@selector(receivingMethodOnListener:)
         name:@"cmove"
+        object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(receivingBtn:)
+        name:@"btn"
         object:nil];
     
     [self setNeedsDisplay:YES];
