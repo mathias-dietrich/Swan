@@ -10,17 +10,15 @@
 
 @implementation Field
 
+Wrapper * wrapper;
+
 int activeFrom = -1;
 int activeTo[64];
 int BORDER =20;
 int hit =-1;
+
 bool isSelected = false;
-Wrapper * wrapper;
 bool isFliped = false;
-bool wCastlingL = true;
-bool wCastlingS = true;
-bool bCastlingL = true;
-bool bCastlingS = true;
 
 /*
  ====================================================================================
@@ -158,6 +156,11 @@ bool bCastlingS = true;
                     ply.str = posFromInt(activeFrom) + posFromInt(hit);
                     
                     // discover castling
+                    bool wCastlingS = board.castelingRights & 1;
+                    bool wCastlingL = board.castelingRights & 2;
+                    bool bCastlingS = board.castelingRights & 4;
+                    bool bCastlingL = board.castelingRights & 8;
+                   
                     //WHITE short
                     if(ply.from == SQ_E1  && ply.to == SQ_G1 && board.squares[ply.to] == W_KING){
                         ply.str = "o-o";

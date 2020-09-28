@@ -19,11 +19,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Field : NSView{
-    IBOutlet MainView * mainView;
-    string lastMove;
     
+    // Main View
+    IBOutlet MainView * mainView;
+
     // the board shown in the UI
     TBoard board;
+    
+    // the PGN notated game shown in the UI
     Game game;
 }
 
@@ -32,17 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)close;
 - (void)newBoard;
 - (void)clearBoard;
-
-//extern enum EPiece pieces[64];
-extern int activeFrom;
-extern int activeTo[64];
-extern int BORDER;
-extern int hit;
-extern bool needsInit;
-extern bool isSelected;
-extern Wrapper * wrapper;
-extern bool isFliped;
-
 
 NS_ASSUME_NONNULL_END
 @end
