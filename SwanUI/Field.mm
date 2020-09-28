@@ -20,7 +20,10 @@ Color nextToMove;
 Wrapper * wrapper;
 bool isFliped = false;
 vector<Ply> plies;
-
+bool wCastlingL = true;
+bool wCastlingS = true;
+bool bCastlingL = true;
+bool bCastlingS = true;
 
 - (void)close{
     [wrapper close];
@@ -181,7 +184,6 @@ vector<Ply> plies;
             }else{
                 // Select to
                 
-                
                 // handle  move
                 // test
                 // make
@@ -211,6 +213,34 @@ vector<Ply> plies;
                     ply.to = hit;
                     ply.str = posFromInt(activeFrom) + posFromInt(hit);
                     
+                    // discover castling
+                    //WHITE short
+                    if(ply.from == SQ_E1  && ply.to == SQ_G1 && pieces[ply.to] == W_KING){
+                        ply.str = "o-o";
+                        pieces[SQ_H1] = EMPTY;
+                        pieces[SQ_F1] = W_ROOK;
+                        wCastlingS = false;
+                    } // long
+                    if(ply.from == SQ_E1  && ply.to == SQ_C1 && pieces[ply.to] == W_KING){
+                        ply.str = "o-o-o";
+                        pieces[SQ_A1] = EMPTY;
+                        pieces[SQ_D1] = W_ROOK;
+                        wCastlingL = false;
+                    }
+                    // Black short
+                    if(ply.from == SQ_E8  && ply.to == SQ_G8 && pieces[ply.to] == B_KING){
+                        ply.str = "o-o";
+                        pieces[SQ_H8] = EMPTY;
+                        pieces[SQ_F8] = B_ROOK;
+                        bCastlingS = false;
+                    }// long
+                    if(ply.from == SQ_E8  && ply.to == SQ_C8 && pieces[ply.to] == B_KING){
+                        ply.str = "o-o-o";
+                        pieces[SQ_A8] = EMPTY;
+                        pieces[SQ_D8] = B_ROOK;
+                        bCastlingL = false;
+                    }
+                    
                     NSString *png = [NSString stringWithCString: ply.str.c_str() encoding:[NSString defaultCStringEncoding]];
                     png = [@"\n1. " stringByAppendingString: png];
                     [mainView setGame:png];
@@ -221,6 +251,12 @@ vector<Ply> plies;
                     for(int i=0;i<64;i++){
                         board.squares[i] = pieces[i];
                     }
+                    board.castelingRights = 0;
+                    if(wCastlingS)board.castelingRights += 1;
+                    if(wCastlingL)board.castelingRights += 2;
+                    if(bCastlingS)board.castelingRights += 4;
+                    if(bCastlingL)board.castelingRights += 8;
+                    
                     string fen = board.getFen(&board);
             
                     NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
