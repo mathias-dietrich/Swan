@@ -868,6 +868,8 @@
                         <connections>
                             <outlet property="cToMove" destination="VqZ-UR-ffS" id="Ufm-OC-st5"/>
                             <outlet property="mainView" destination="EiT-Mj-1SZ" id="ibN-NQ-1nP"/>
+                            <outlet property="timeB" destination="PXC-kC-OOT" id="CPY-vt-zsf"/>
+                            <outlet property="timeW" destination="fAm-uP-r4c" id="Oha-e9-zua"/>
                         </connections>
                     </customView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9a5-IQ-24A">
@@ -931,26 +933,6 @@
                             <font key="font" metaFont="system" size="10"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6OB-Fw-5Tx">
-                        <rect key="frame" x="823" y="45" width="604" height="565"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="OQI-bZ-2RP">
-                            <font key="font" metaFont="system"/>
-                            <string key="title">[Event "New Match“]
-[Site „Mat’s home"]
-[Date „2020.8.8"]
-[Round „1"]
-[White „Mathias Dietrich"]
-[Black „Swan"]
-
-</string>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                            <allowedInputSourceLocales>
-                                <string>NSAllRomanInputSourcesLocaleIdentifier</string>
-                            </allowedInputSourceLocales>
                         </textFieldCell>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PTO-lc-7j2">
@@ -1242,6 +1224,50 @@
                             <action selector="resetBoard:" target="EiT-Mj-1SZ" id="icm-Ny-9RR"/>
                         </connections>
                     </button>
+                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJF-6l-Jw0">
+                        <rect key="frame" x="823" y="51" width="599" height="554"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="p9n-M0-kt9">
+                            <rect key="frame" x="0.0" y="0.0" width="599" height="554"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="8SG-UE-MO6">
+                                    <rect key="frame" x="0.0" y="0.0" width="599" height="554"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="minSize" width="599" height="554"/>
+                                    <size key="maxSize" width="607" height="10000000"/>
+                                    <attributedString key="textStorage">
+                                        <fragment>
+                                            <string key="content">[Event "New Match“]
+[Site „Mat’s home"]
+[Date „2020.8.8"]
+[Round „1"]
+[White „Mathias Dietrich"]
+[Black „Swan"]
+
+</string>
+                                            <attributes>
+                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <font key="NSFont" size="12" name="Helvetica"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                </textView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="PQV-XB-XZd">
+                            <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="p3Q-gp-mhy">
+                            <rect key="frame" x="583" y="0.0" width="16" height="554"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                 </subviews>
                 <connections>
                     <outlet property="btnAnalysis" destination="1Gh-lN-3vC" id="lp7-YP-3ie"/>
@@ -1277,7 +1303,7 @@
                     <outlet property="btnStop" destination="jP4-N5-0jQ" id="eyn-IK-3Qa"/>
                     <outlet property="btnTop" destination="nBH-d5-oV9" id="Onv-Sc-OZC"/>
                     <outlet property="fenField" destination="yd0-rm-da6" id="Kh6-Qi-XrB"/>
-                    <outlet property="gameField" destination="6OB-Fw-5Tx" id="ncq-as-CRs"/>
+                    <outlet property="gameField" destination="8SG-UE-MO6" id="aSB-AH-CMG"/>
                     <outlet property="timeB" destination="PXC-kC-OOT" id="b09-U3-5DS"/>
                     <outlet property="timeW" destination="fAm-uP-r4c" id="0t4-Rg-ujH"/>
                 </connections>

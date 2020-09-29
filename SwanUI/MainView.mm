@@ -60,9 +60,9 @@
 }
 
 - (void)setGame:(NSString*)png{
-    NSString    *text        = [gameField stringValue];
+    NSString    *text        = [gameField string];
     NSString *joinedString = [text stringByAppendingString:png];
-    [gameField setStringValue:joinedString];
+    [gameField setString:joinedString];
 }
 - (void)call:(NSString*)b{
     NSDictionary * userInfo = @{ @"btn" :b};

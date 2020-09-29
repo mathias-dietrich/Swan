@@ -15,10 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MainView : NSView{
     IBOutlet NSTextField * fenField;
-    IBOutlet NSTextField * gameField;
+    IBOutlet NSTextView * gameField;
     
-    IBOutlet NSTextField * timeW;
-    IBOutlet NSTextField * timeB;
     IBOutlet NSTextField * engineInfo;
     
     IBOutlet NSComboBox * playerW;

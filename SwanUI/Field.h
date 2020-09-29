@@ -27,7 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
     // Main View
     IBOutlet MainView * mainView;
     IBOutlet NSColorWell * cToMove;
-
+    IBOutlet NSTextField * timeW;
+    IBOutlet NSTextField * timeB;
+    NSTimer *_timer;
     // the board shown in the UI
     TBoard board;
     
@@ -35,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
     Game game;
 }
 
+-(void) startTimer;
 - (void)flip;
 - (void)setup;
 - (void)close;

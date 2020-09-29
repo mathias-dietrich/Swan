@@ -27,7 +27,48 @@ bool isWhitePromotion;
 bool isBlackPromotion;
 Ply ply;
 
+bool isClockRunning = false;
 bool isSetMode;
+
+int timeWhite = 300;
+int timeBlack = 300;
+
+-(void) startTimer{
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
+    isClockRunning = true;
+}
+
+-(void) stopTimer{
+    isClockRunning = false;
+    if ([_timer isValid]) {
+          [_timer invalidate];
+      }
+      _timer = nil;
+}
+- (NSString*) getTimeString:(int)seconds{
+    int minutes = seconds/60;
+    int sec = seconds - (minutes*60);
+    NSString *s = [NSString stringWithFormat:@"%d",minutes];
+    s = [s stringByAppendingString:@":"];
+    s = [s stringByAppendingString:[NSString stringWithFormat:@"%d",sec]];
+    return s;
+}
+
+- (void)_timerFired:(NSTimer *)timer {
+    if(board.sideToMove == WHITE){
+        timeWhite--;
+        if(timeWhite==0){
+            // TODO
+        }
+    }else{
+        timeBlack--;
+        if(timeBlack==0){
+            // TODO
+        }
+    }
+    [timeW setStringValue: [self getTimeString:timeWhite]];
+    [timeB setStringValue: [self getTimeString:timeBlack]];
+}
 
 - (void)SetWhiteToMove{
     [cToMove setColor:[NSColor whiteColor]];
@@ -66,14 +107,14 @@ bool isSetMode;
         bool bCastlingL = board.castelingRights & 8;
        
         //WHITE short
-        if(ply.from == SQ_E1  && ply.to == SQ_G1 && board.squares[ply.to] == W_KING){
+        if(ply.from == SQ_E1  && ply.to == SQ_G1 && board.squares[ply.from] == W_KING){
             ply.strDisplay = "o-o";
             board.squares[SQ_H1] = EMPTY;
             board.squares[SQ_F1] = W_ROOK;
             wCastlingS = false;
             wCastlingL = false;
         } // long
-        if(ply.from == SQ_E1  && ply.to == SQ_C1 && board.squares[ply.to] == W_KING){
+        if(ply.from == SQ_E1  && ply.to == SQ_C1 && board.squares[ply.from] == W_KING){
             ply.strDisplay = "o-o-o";
             board.squares[SQ_A1] = EMPTY;
             board.squares[SQ_D1] = W_ROOK;
@@ -81,14 +122,14 @@ bool isSetMode;
             wCastlingS = false;
         }
         // Black short
-        if(ply.from == SQ_E8  && ply.to == SQ_G8 && board.squares[ply.to] == B_KING){
+        if(ply.from == SQ_E8  && ply.to == SQ_G8 && board.squares[ply.from] == B_KING){
             ply.strDisplay = "o-o";
             board.squares[SQ_H8] = EMPTY;
             board.squares[SQ_F8] = B_ROOK;
             bCastlingS = false;
             bCastlingL = false;
         }// long
-        if(ply.from == SQ_E8  && ply.to == SQ_C8 && board.squares[ply.to] == B_KING){
+        if(ply.from == SQ_E8  && ply.to == SQ_C8 && board.squares[ply.from] == B_KING){
             ply.strDisplay = "o-o-o";
             board.squares[SQ_A8] = EMPTY;
             board.squares[SQ_D8] = B_ROOK;
@@ -535,6 +576,9 @@ bool isSetMode;
                         ply.str = mv;
                         game.plies.push_back(ply);
                         [self makemove:ply];
+                    }
+                    if(!isClockRunning){
+                        [self startTimer];
                     }
                     activeFrom =-1;
                 }
