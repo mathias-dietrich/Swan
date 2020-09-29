@@ -16,6 +16,10 @@
 #import "MainView.h"
 #import "Board.h"
 #import "Game.h"
+#include "pg_key.h"
+#include "pg_show.h"
+#include "Config.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Field : NSView{

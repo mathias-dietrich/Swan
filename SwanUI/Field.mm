@@ -11,6 +11,8 @@
 @implementation Field
 
 Wrapper * wrapper;
+pg_key pgkey;
+pg_show pgshow;
 
 int activeFrom = -1;
 int activeTo[64];
@@ -279,11 +281,23 @@ bool isFliped = false;
                     
                     [self->mainView setGame:png];
                     
-                    
                     string fen = board.getFen(&board);
                     NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
                     [mainView setFen:fens];
-                    [wrapper findMove :fen];
+                    
+                    //  Check book
+                    U64 hash =  pgkey.findHash(fen);
+                    string mv = pgshow.readBook(hash, bookPath);
+                    if("ERR" == mv){
+                        [wrapper findMove :fen];
+                    }else{
+                        Ply ply;
+                        ply.from =  getPosFromStr(mv.substr(0,2));
+                        ply.to =  getPosFromStr(mv.substr(2,2));
+                        ply.str = mv;
+                        game.plies.push_back(ply);
+                        [self makemove:ply];
+                    }
                     activeFrom =-1;
                 }
             }

@@ -20,6 +20,7 @@
 		4F5EC989251D379D00EF69F0 /* pieces in Resources */ = {isa = PBXBuildFile; fileRef = 4F5EC988251D379D00EF69F0 /* pieces */; };
 		4F5EC999251D39CD00EF69F0 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F5EC998251D39CD00EF69F0 /* Media.xcassets */; };
 		4FCE7D6D252121D500B23611 /* MainView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE7D6C252121D500B23611 /* MainView.mm */; };
+		4FCE7D7B2523137E00B23611 /* Config.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE7D7A2523137E00B23611 /* Config.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,10 @@
 		4FCE7D6A25211F4900B23611 /* MainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		4FCE7D6C252121D500B23611 /* MainView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainView.mm; sourceTree = "<group>"; };
 		4FCE7D712521F70C00B23611 /* Game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		4FCE7D75252311B400B23611 /* pg_key.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pg_key.h; sourceTree = "<group>"; };
+		4FCE7D76252311B400B23611 /* pg_show.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pg_show.h; sourceTree = "<group>"; };
+		4FCE7D782523131300B23611 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		4FCE7D7A2523137E00B23611 /* Config.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Config.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +118,8 @@
 				4F5EC988251D379D00EF69F0 /* pieces */,
 				4F5EC972251D277C00EF69F0 /* AppDelegate.h */,
 				4F5EC973251D277C00EF69F0 /* AppDelegate.mm */,
+				4FCE7D75252311B400B23611 /* pg_key.h */,
+				4FCE7D76252311B400B23611 /* pg_show.h */,
 				4F26C7E5251E3AB800050C2A /* Wrapper.h */,
 				4F26C7E6251E3AB800050C2A /* Wrapper.mm */,
 				4F5EC977251D277E00EF69F0 /* MainMenu.xib */,
@@ -124,6 +131,8 @@
 				4F5EC998251D39CD00EF69F0 /* Media.xcassets */,
 				4FCE7D6A25211F4900B23611 /* MainView.h */,
 				4FCE7D6C252121D500B23611 /* MainView.mm */,
+				4FCE7D782523131300B23611 /* Config.h */,
+				4FCE7D7A2523137E00B23611 /* Config.mm */,
 			);
 			path = SwanUI;
 			sourceTree = "<group>";
@@ -198,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F26C7D9251E39D400050C2A /* Field.mm in Sources */,
+				4FCE7D7B2523137E00B23611 /* Config.mm in Sources */,
 				4F26C7F4251E43A400050C2A /* Engine.cpp in Sources */,
 				4F26C7F8251E43AE00050C2A /* Global.cpp in Sources */,
 				4F26C7E7251E3AB800050C2A /* Wrapper.mm in Sources */,
