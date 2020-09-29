@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     IBOutlet NSButton * btnAnalysis;
     IBOutlet NSButton * btnDebug;
     IBOutlet NSButton * btnClear;
+    IBOutlet NSButton * btnResign;
 }
 
 - (void)call:(NSString*)b;
@@ -78,6 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)setBishopB:(id)sender;
 - (IBAction)setPawnW:(id)sender;
 - (IBAction)setPawnB:(id)sender;
+- (IBAction)reign:(id)sender;
 NS_ASSUME_NONNULL_END
 @end
 

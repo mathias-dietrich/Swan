@@ -114,6 +114,9 @@
 - (IBAction)setPawnB:(id)sender{
     [self call:@"setPawnB"];
 }
+- (IBAction)reign:(id)sender{
+    [self call:@"reign"];
+}
 
 
 

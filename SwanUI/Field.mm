@@ -102,6 +102,9 @@ bool isFliped = false;
     if([btnPressed  isEqual: @"showClear"]){
         return;
     }
+    if([btnPressed  isEqual: @"reign"]){
+        return;
+    }
 }
 
 - (void)makemove:(Ply)ply{
