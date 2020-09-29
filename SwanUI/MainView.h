@@ -44,7 +44,22 @@ NS_ASSUME_NONNULL_BEGIN
     IBOutlet NSButton * btnDebug;
     IBOutlet NSButton * btnClear;
     IBOutlet NSButton * btnResign;
+    IBOutlet NSButton * btnResetBoard;
+    IBOutlet NSButton * btnKingW;
+    IBOutlet NSButton * btnQueenW;
+    IBOutlet NSButton * btnRookW;
+    IBOutlet NSButton * btnBishopW;
+    IBOutlet NSButton * btnKnightW;
+    IBOutlet NSButton * btnPawnW;
+    
+    IBOutlet NSButton * btnKingB;
+    IBOutlet NSButton * btnQueenB;
+    IBOutlet NSButton * btnRookB;
+    IBOutlet NSButton * btnBishopB;
+    IBOutlet NSButton * btnKnightB;
+    IBOutlet NSButton * btnPawnB;
 }
+
 
 - (void)call:(NSString*)b;
 - (void)setGame:(NSString*)png;
@@ -80,6 +95,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)setPawnW:(id)sender;
 - (IBAction)setPawnB:(id)sender;
 - (IBAction)reign:(id)sender;
+- (IBAction)resetBoard:(id)sender;
+- (void)disablePieceSelection;
+- (void)enablePieceSelection;
+- (void)enableWhitePromotion;
+- (void)enableBlackPromotion;
+
 NS_ASSUME_NONNULL_END
 @end
 

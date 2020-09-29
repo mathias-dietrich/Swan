@@ -88,6 +88,7 @@ struct Ply{
     int from;
     int to;
     string str;
+    string strDisplay;
 };
 
 inline Rank getRank(char x){

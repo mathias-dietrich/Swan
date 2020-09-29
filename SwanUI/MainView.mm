@@ -9,6 +9,48 @@
 
 @implementation MainView
 
+- (void)disablePieceSelection{
+    [btnKingW setEnabled: NO];
+    [btnQueenW setEnabled: NO];
+    [btnRookW setEnabled: NO];
+    [btnBishopW setEnabled: NO];
+    [btnKnightW setEnabled: NO];
+    [btnPawnW setEnabled: NO];
+
+    [btnKingB setEnabled: NO];
+    [btnQueenB setEnabled: NO];
+    [btnRookB setEnabled: NO];
+    [btnBishopB setEnabled: NO];
+    [btnKnightB setEnabled: NO];
+    [btnPawnB setEnabled: NO];
+}
+- (void)enablePieceSelection{
+    [btnKingW setEnabled: YES];
+    [btnQueenW setEnabled: YES];
+    [btnRookW setEnabled: YES];
+    [btnBishopW setEnabled: YES];
+    [btnKnightW setEnabled: YES];
+    [btnPawnW setEnabled: YES];
+
+    [btnKingB setEnabled: YES];
+    [btnQueenB setEnabled: YES];
+    [btnRookB setEnabled: YES];
+    [btnBishopB setEnabled: YES];
+    [btnKnightB setEnabled: YES];
+    [btnPawnB setEnabled: YES];
+}
+- (void)enableWhitePromotion{
+    [btnQueenW setEnabled: YES];
+    [btnRookW setEnabled: YES];
+    [btnBishopW setEnabled: YES];
+    [btnKnightW setEnabled: YES];
+}
+- (void)enableBlackPromotion{
+    [btnQueenB setEnabled: YES];
+    [btnRookB setEnabled: YES];
+    [btnBishopB setEnabled: YES];
+    [btnKnightB setEnabled: YES];
+}
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 }
@@ -26,6 +68,8 @@
     NSDictionary * userInfo = @{ @"btn" :b};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"btn" object:nil  userInfo:userInfo];
 }
+
+
 
 - (IBAction)top:(id)sender{
     [self call:@"top"];
@@ -91,7 +135,7 @@
     [self call:@"setQueenB"];
 }
 - (IBAction)setRookpW:(id)sender{
-    [self call:@"setRookpW"];
+    [self call:@"setRookW"];
 }
 - (IBAction)setRookpB:(id)sender{
     [self call:@"setRookpB"];
@@ -117,7 +161,8 @@
 - (IBAction)reign:(id)sender{
     [self call:@"reign"];
 }
-
-
+- (IBAction)resetBoard:(id)sender{
+    [self call:@"resetBoard"];
+}
 
 @end

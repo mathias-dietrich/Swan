@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Main View
     IBOutlet MainView * mainView;
+    IBOutlet NSColorWell * cToMove;
 
     // the board shown in the UI
     TBoard board;
@@ -39,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)close;
 - (void)newBoard;
 - (void)clearBoard;
+- (void)SetWhiteToMove;
+- (void)SetBlackToMove;
 
 NS_ASSUME_NONNULL_END
 @end

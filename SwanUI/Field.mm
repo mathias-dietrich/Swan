@@ -10,6 +10,7 @@
 
 @implementation Field
 
+enum EPiece lastSelectedPiece;
 Wrapper * wrapper;
 pg_key pgkey;
 pg_show pgshow;
@@ -21,6 +22,19 @@ int hit =-1;
 
 bool isSelected = false;
 bool isFliped = false;
+
+bool isWhitePromotion;
+bool isBlackPromotion;
+Ply ply;
+
+bool isSetMode;
+
+- (void)SetWhiteToMove{
+    [cToMove setColor:[NSColor whiteColor]];
+}
+- (void)SetBlackToMove{
+    [cToMove setColor:[NSColor blackColor]];
+}
 
 /*
  ====================================================================================
@@ -43,12 +57,111 @@ bool isFliped = false;
         Ply ply;
         ply.from = from;
         ply.to = to;
-        ply.str = posFromInt(from) + posFromInt(to);
+        ply.strDisplay = ply.str = posFromInt(from) + posFromInt(to);
+        
+        // check for castling
+        bool wCastlingS = board.castelingRights & 1;
+        bool wCastlingL = board.castelingRights & 2;
+        bool bCastlingS = board.castelingRights & 4;
+        bool bCastlingL = board.castelingRights & 8;
+       
+        //WHITE short
+        if(ply.from == SQ_E1  && ply.to == SQ_G1 && board.squares[ply.to] == W_KING){
+            ply.strDisplay = "o-o";
+            board.squares[SQ_H1] = EMPTY;
+            board.squares[SQ_F1] = W_ROOK;
+            wCastlingS = false;
+            wCastlingL = false;
+        } // long
+        if(ply.from == SQ_E1  && ply.to == SQ_C1 && board.squares[ply.to] == W_KING){
+            ply.strDisplay = "o-o-o";
+            board.squares[SQ_A1] = EMPTY;
+            board.squares[SQ_D1] = W_ROOK;
+            wCastlingL = false;
+            wCastlingS = false;
+        }
+        // Black short
+        if(ply.from == SQ_E8  && ply.to == SQ_G8 && board.squares[ply.to] == B_KING){
+            ply.strDisplay = "o-o";
+            board.squares[SQ_H8] = EMPTY;
+            board.squares[SQ_F8] = B_ROOK;
+            bCastlingS = false;
+            bCastlingL = false;
+        }// long
+        if(ply.from == SQ_E8  && ply.to == SQ_C8 && board.squares[ply.to] == B_KING){
+            ply.strDisplay = "o-o-o";
+            board.squares[SQ_A8] = EMPTY;
+            board.squares[SQ_D8] = B_ROOK;
+            bCastlingL = false;
+            bCastlingS = false;
+        }
+
+        board.castelingRights = 0;
+        if(wCastlingS)board.castelingRights += 1;
+        if(wCastlingL)board.castelingRights += 2;
+        if(bCastlingS)board.castelingRights += 4;
+        if(bCastlingL)board.castelingRights += 8;
+        
+        // check for promotion
+        // check for promotion
+        if(board.sideToMove == WHITE){
+            if(board.squares[activeFrom] == W_PAWN && ply.to > 55){
+                // White Promotion
+                r = NSMakeRange(12,1);
+                NSString  *figure = [m substringWithRange:r];
+                if(figure==@"q"){
+                    board.squares[ply.from] = W_QUEEN;
+                    ply.str += "q";
+                    ply.strDisplay += "q";
+                }
+                if(figure==@"r"){
+                    board.squares[ply.from] = W_ROOK;
+                    ply.str += "r";
+                    ply.strDisplay += "r";
+                }
+                if(figure==@"n"){
+                    board.squares[ply.from] = W_KNIGHT;
+                    ply.str += "n";
+                    ply.strDisplay += "n";
+                }
+                if(figure==@"b"){
+                    board.squares[ply.from] = W_BISHOP;
+                    ply.str += "b";
+                    ply.strDisplay += "b";
+                }
+            }
+        }else{
+            if(board.squares[activeFrom] == B_PAWN && ply.to > 8){
+                // Black Promotion
+                r = NSMakeRange(12,1);
+                NSString  *figure = [m substringWithRange:r];
+                if(figure==@"q"){
+                    board.squares[ply.from] = B_QUEEN;
+                    ply.str += "q";
+                    ply.strDisplay += "q";
+                }
+                if(figure==@"r"){
+                    board.squares[ply.from] = B_ROOK;
+                    ply.str += "r";
+                    ply.strDisplay += "r";
+                }
+                if(figure==@"n"){
+                    board.squares[ply.from] = B_KNIGHT;
+                    ply.str += "n";
+                    ply.strDisplay += "n";
+                }
+                if(figure==@"b"){
+                    board.squares[ply.from] = B_BISHOP;
+                    ply.str += "b";
+                    ply.strDisplay += "b";
+                }
+            }
+        }
+        
         game.plies.push_back(ply);
         [self makemove:ply];
     }
 }
-
 
 - (void) receivingBtn:(NSNotification *) notification{
     NSDictionary *dict = [notification userInfo];
@@ -77,10 +190,28 @@ bool isFliped = false;
     if([btnPressed  isEqual: @"loadPGN"]){
         return;
     }
+    if([btnPressed  isEqual: @"resetBoard"]){
+        [self newBoard];
+        [self setNeedsDisplay:YES];
+        return;
+    }
+    
     if([btnPressed  isEqual: @"clearBoard"]){
+        isSetMode = true;
+        for(int i=0; i < 64;i++){
+            board.squares[i] = EMPTY;
+        }
+        [mainView enablePieceSelection];
+        [self setNeedsDisplay:YES];
         return;
     }
     if([btnPressed  isEqual: @"setBoard"]){
+        isSetMode = !isSetMode;
+        if(isSetMode){
+            [mainView enablePieceSelection];
+        }else{
+            [mainView disablePieceSelection];
+        }
         return;
     }
     if([btnPressed  isEqual: @"settings"]){
@@ -107,6 +238,94 @@ bool isFliped = false;
     if([btnPressed  isEqual: @"reign"]){
         return;
     }
+    
+    if([btnPressed  isEqual: @"setQueenW"]){
+        if(isWhitePromotion){
+            ply.str += "q";
+            ply.strDisplay += "q";
+            board.squares[ply.from] = W_QUEEN;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        lastSelectedPiece = W_QUEEN;
+        return;
+    }
+    if([btnPressed  isEqual: @"setRookW"]){
+        if(isWhitePromotion){
+            ply.str += "r";
+            ply.strDisplay += "r";
+            board.squares[ply.from] = W_ROOK;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        lastSelectedPiece = W_ROOK;
+        return;
+    }
+    if([btnPressed  isEqual: @"setKnightW"]){
+        if(isWhitePromotion){
+            ply.str += "n";
+            ply.strDisplay += "n";
+            board.squares[ply.from] = W_KNIGHT;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        lastSelectedPiece = W_KNIGHT;
+        return;
+    }
+    if([btnPressed  isEqual: @"setBishopW"]){
+        if(isWhitePromotion){
+            ply.str += "b";
+            ply.strDisplay += "b";
+            board.squares[ply.from] = W_BISHOP;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        lastSelectedPiece = W_BISHOP;
+        return;
+    }
+    if([btnPressed  isEqual: @"setQueenB"]){
+        if(isBlackPromotion){
+            ply.str += "q";
+            ply.strDisplay += "q";
+            board.squares[ply.from] = B_QUEEN;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        return;
+    }
+    if([btnPressed  isEqual: @"setRookB"]){
+        if(isBlackPromotion){
+            ply.str += "r";
+            ply.strDisplay += "r";
+            board.squares[ply.from] = B_ROOK;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        lastSelectedPiece = B_ROOK;
+        return;
+    }
+    if([btnPressed  isEqual: @"setKnightB"]){
+        if(isBlackPromotion){
+            ply.str += "n";
+            ply.strDisplay += "n";
+            board.squares[ply.from] = B_KNIGHT;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        lastSelectedPiece = B_KNIGHT;
+        return;
+    }
+    if([btnPressed  isEqual: @"setBishopB"]){
+        if(isBlackPromotion){
+            ply.str += "b";
+            ply.strDisplay += "b";
+            board.squares[ply.from] = B_BISHOP;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        lastSelectedPiece = B_BISHOP;
+        return;
+    }
 }
 
 - (void)makemove:(Ply)ply{
@@ -131,7 +350,11 @@ bool isFliped = false;
             strFromInt = [strFromInt stringByAppendingString: @ ". "];
             png = [strFromInt stringByAppendingString: png];
         }
-        
+        if(self->board.sideToMove == WHITE){
+            [self SetWhiteToMove];
+        }else{
+            [self SetBlackToMove];
+        }
         [self->mainView setGame:png];
         [self setNeedsDisplay:YES];
     });
@@ -212,10 +435,10 @@ bool isFliped = false;
                     board.squares[activeFrom] = EMPTY;
                     board.squares[hit] = p;
                     
-                    Ply ply;
+                    
                     ply.from = activeFrom;
                     ply.to = hit;
-                    ply.str = posFromInt(activeFrom) + posFromInt(hit);
+                    ply.strDisplay = ply.str = posFromInt(activeFrom) + posFromInt(hit);
                     
                     // discover castling
                     bool wCastlingS = board.castelingRights & 1;
@@ -225,14 +448,14 @@ bool isFliped = false;
                    
                     //WHITE short
                     if(ply.from == SQ_E1  && ply.to == SQ_G1 && board.squares[ply.to] == W_KING){
-                        ply.str = "o-o";
+                        ply.strDisplay = "o-o";
                         board.squares[SQ_H1] = EMPTY;
                         board.squares[SQ_F1] = W_ROOK;
                         wCastlingS = false;
                         wCastlingL = false;
                     } // long
                     if(ply.from == SQ_E1  && ply.to == SQ_C1 && board.squares[ply.to] == W_KING){
-                        ply.str = "o-o-o";
+                        ply.strDisplay = "o-o-o";
                         board.squares[SQ_A1] = EMPTY;
                         board.squares[SQ_D1] = W_ROOK;
                         wCastlingL = false;
@@ -240,21 +463,19 @@ bool isFliped = false;
                     }
                     // Black short
                     if(ply.from == SQ_E8  && ply.to == SQ_G8 && board.squares[ply.to] == B_KING){
-                        ply.str = "o-o";
+                        ply.strDisplay = "o-o";
                         board.squares[SQ_H8] = EMPTY;
                         board.squares[SQ_F8] = B_ROOK;
                         bCastlingS = false;
                         bCastlingL = false;
                     }// long
                     if(ply.from == SQ_E8  && ply.to == SQ_C8 && board.squares[ply.to] == B_KING){
-                        ply.str = "o-o-o";
+                        ply.strDisplay = "o-o-o";
                         board.squares[SQ_A8] = EMPTY;
                         board.squares[SQ_D8] = B_ROOK;
                         bCastlingL = false;
                         bCastlingS = false;
                     }
-    
-                    game.plies.push_back(ply);
     
                     board.castelingRights = 0;
                     if(wCastlingS)board.castelingRights += 1;
@@ -262,14 +483,31 @@ bool isFliped = false;
                     if(bCastlingS)board.castelingRights += 4;
                     if(bCastlingL)board.castelingRights += 8;
                     
+                    // check for promotion
+                    if(board.sideToMove == WHITE){
+                        if(board.squares[activeFrom] == W_PAWN && ply.to > 55){
+                            // White Promotion
+                            isWhitePromotion = true;
+                            [mainView enableWhitePromotion];
+                        }
+                    }else{
+                        if(board.squares[activeFrom] == B_PAWN && ply.to > 8){
+                            isBlackPromotion = true;
+                            [mainView enableBlackPromotion ];
+                        }
+                    }
+                    
                     if(board.sideToMove == WHITE){
                         board.sideToMove = BLACK;
+                        [self SetBlackToMove];
                     }else{
                         board.halfmove++;
                         board.sideToMove = WHITE;
+                        [self SetWhiteToMove];
                     }
                     [self findMoves:-1];
                     
+                    game.plies.push_back(ply);
                     NSString *png = [NSString stringWithCString: ply.str.c_str() encoding:[NSString defaultCStringEncoding]];
                     if(self->board.sideToMove == WHITE){
                         png = [@" " stringByAppendingString: png];
@@ -603,7 +841,6 @@ bool isFliped = false;
         }
     }
 }
-
 
 - (NSImage *)imageResize:(NSImage*)anImage newSize:(NSSize)newSize {
     NSImage *sourceImage = anImage;
