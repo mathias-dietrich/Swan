@@ -31,13 +31,13 @@ Ply ply;
 bool isClockRunning = false;
 bool isSetMode;
 
-int timeWhite = 300;
-int timeBlack = 300;
+int timeWhite = 3000; // 
+int timeBlack = 3000;
 
 bool gettingLegalMoves;
 
 -(void) startTimer{
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
     isClockRunning = true;
 }
 
@@ -48,7 +48,8 @@ bool gettingLegalMoves;
       }
       _timer = nil;
 }
-- (NSString*) getTimeString:(int)seconds{
+- (NSString*) getTimeString:(int)seconds{ // these are 1/10 second
+    seconds /= 10;
     int minutes = seconds/60;
     int sec = seconds - (minutes*60);
     NSString *s = [NSString stringWithFormat:@"%d",minutes];
@@ -487,12 +488,6 @@ bool gettingLegalMoves;
                 isSelected = true;
                 [self findMoves:hit];
             }else{
-                // Select to
-                
-                // handle  move
-                // test
-                // make
-                // check move is valid
                 bool found = false;
                 for(int i=0;i<64;i++){
                     if(hit == activeTo[i]){
@@ -501,7 +496,7 @@ bool gettingLegalMoves;
                     }
                 }
                 
-                found = true; //TODO faking movegen - allow all Moves
+                //found = true; //TODO faking movegen - allow all Moves
                 if(found){
                     enum EPiece p = board.squares[activeFrom];
                     board.squares[activeFrom] = EMPTY;
@@ -716,9 +711,11 @@ bool gettingLegalMoves;
 - (void)close{
     [wrapper close];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [NSApp terminate:self];
 }
 
 - (void)setup{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:self.window];
     activeFrom = -1;
     [self newBoard];
     wrapper = [Wrapper alloc];
@@ -738,6 +735,12 @@ bool gettingLegalMoves;
     
     [self setNeedsDisplay:YES];
 }
+
+- (void)windowWillClose:(NSNotification *)notification
+    {
+        NSWindow *win = [notification object];
+        [self close];
+    }
 
 /*
  =================================================================================================

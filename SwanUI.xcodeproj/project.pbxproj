@@ -14,6 +14,7 @@
 		4F26C7F8251E43AE00050C2A /* Global.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7F7251E43AE00050C2A /* Global.cpp */; };
 		4F26C7FF251E43BD00050C2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7FB251E43BD00050C2A /* main.m */; };
 		4F26C801251E43BD00050C2A /* magicmoves.c in Sources */ = {isa = PBXBuildFile; fileRef = 4F26C7FE251E43BD00050C2A /* magicmoves.c */; };
+		4F4486342524A5C10099862B /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F4486332524A5C10099862B /* WindowController.m */; };
 		4F5EC974251D277C00EF69F0 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC973251D277C00EF69F0 /* AppDelegate.mm */; };
 		4F5EC979251D277E00EF69F0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F5EC977251D277E00EF69F0 /* MainMenu.xib */; };
 		4F5EC97C251D277E00EF69F0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5EC97B251D277E00EF69F0 /* main.m */; };
@@ -42,6 +43,8 @@
 		4F26C7FC251E43BD00050C2A /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = SwanUI/main.cpp; sourceTree = SOURCE_ROOT; };
 		4F26C7FD251E43BD00050C2A /* magicmoves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = magicmoves.h; path = SwanUI/magicmoves.h; sourceTree = SOURCE_ROOT; };
 		4F26C7FE251E43BD00050C2A /* magicmoves.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = magicmoves.c; path = SwanUI/magicmoves.c; sourceTree = SOURCE_ROOT; };
+		4F4486322524A5C10099862B /* WindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowController.h; sourceTree = "<group>"; };
+		4F4486332524A5C10099862B /* WindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowController.m; sourceTree = "<group>"; };
 		4F487CD625206C33006C2901 /* EngineWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EngineWrapper.h; sourceTree = "<group>"; };
 		4F5EC96F251D277C00EF69F0 /* SwanUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwanUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F5EC972251D277C00EF69F0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -133,6 +136,8 @@
 				4FCE7D6C252121D500B23611 /* MainView.mm */,
 				4FCE7D782523131300B23611 /* Config.h */,
 				4FCE7D7A2523137E00B23611 /* Config.mm */,
+				4F4486322524A5C10099862B /* WindowController.h */,
+				4F4486332524A5C10099862B /* WindowController.m */,
 			);
 			path = SwanUI;
 			sourceTree = "<group>";
@@ -207,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F26C7D9251E39D400050C2A /* Field.mm in Sources */,
+				4F4486342524A5C10099862B /* WindowController.m in Sources */,
 				4FCE7D7B2523137E00B23611 /* Config.mm in Sources */,
 				4F26C7F4251E43A400050C2A /* Engine.cpp in Sources */,
 				4F26C7F8251E43AE00050C2A /* Global.cpp in Sources */,

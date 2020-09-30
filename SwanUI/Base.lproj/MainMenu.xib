@@ -8,10 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSWindow">
             <connections>
-                <outlet property="btnFlip" destination="P2e-8a-aHP" id="6qs-PY-AfB"/>
-                <outlet property="btnStart" destination="xu4-hd-VtR" id="o83-9O-Wkp"/>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="GzC-gU-4Uq"/>
-                <outlet property="field" destination="cw2-iK-hfv" id="xE8-FV-l1K"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>

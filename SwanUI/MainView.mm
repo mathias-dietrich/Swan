@@ -9,7 +9,10 @@
 
 @implementation MainView
 
-
+- (BOOL)windowShouldClose:(id)sender {
+    [NSApp hide:nil];
+    return NO;
+}
 
 - (void)disablePieceSelection{
     [btnKingW setEnabled: NO];

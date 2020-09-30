@@ -23,16 +23,23 @@
     [field flip];
 }
 
+- (BOOL)windowWillClose:(id)sender{
+    return YES;
+}
+
+- (BOOL)windowShouldClose:(id)sender {
+    [NSApp hide:nil];
+    return NO;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [field setup];
     NSLog(@">applicationDidFinishLaunching");
 }
 
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [field close];
-    NSLog(@">applicationWillTerminate");
+- (void)applicationWillTerminate:(NSNotification *)notification{
+    NSLog(@"applicationWillTerminate");
 }
-
 
 @end
