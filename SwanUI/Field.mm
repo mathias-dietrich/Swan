@@ -17,8 +17,9 @@ pg_show pgshow;
 
 int activeFrom = -1;
 int activeTo[64];
+int activePos;
 int BORDER =20;
-int hit =-1;
+Square hit = SQ_NONE;
 
 bool isSelected = false;
 bool isFliped = false;
@@ -32,6 +33,8 @@ bool isSetMode;
 
 int timeWhite = 300;
 int timeBlack = 300;
+
+bool gettingLegalMoves;
 
 -(void) startTimer{
     _timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
@@ -85,6 +88,33 @@ int timeBlack = 300;
 - (void) receivingMethodOnListener:(NSNotification *) notification{
     NSDictionary *dict = [notification userInfo];
     NSString *move = dict[@"move"];
+    NSLog(move);
+    if ([move length] == 0 ){
+        return;
+    }
+    
+    // Legal Moves
+    if(gettingLegalMoves){
+        NSArray *moves = [move componentsSeparatedByString:@","];
+        NSEnumerator *e = [moves objectEnumerator];
+        NSString * object;
+        while (object = [e nextObject]) {
+            if(object.length == 0){
+                continue;
+            }
+            NSRange r = NSMakeRange(0,2);
+            NSString  *tr = [object substringWithRange:r];
+            Square from = getPosFromStr(std::string([tr UTF8String]));
+            if(hit == from){
+                r = NSMakeRange(2,2);
+                NSString  *tr = [object substringWithRange:r];
+                Square to = getPosFromStr(std::string([tr UTF8String]));
+                activeTo[activePos] = to;
+                activePos++;
+            }
+        }
+    }
+    
     int pos = (int)[move rangeOfString:@"bestmove"].location;
     if(pos > -1){
         NSRange r = NSMakeRange(pos,14);
@@ -99,6 +129,7 @@ int timeBlack = 300;
         ply.from = from;
         ply.to = to;
         ply.strDisplay = ply.str = posFromInt(from) + posFromInt(to);
+
         
         // check for castling
         bool wCastlingS = board.castelingRights & 1;
@@ -597,9 +628,9 @@ int timeBlack = 300;
     int file = x/95;
     int rank =  y/95;
     if(isFliped){
-        hit = 63 - (file + rank* 8) ;
+        hit = (Square) (63 - (file + rank* 8)) ;
     }else{
-        hit = file + rank * 8 ;
+        hit = (Square) (file + rank * 8) ;
     }
     [self setNeedsDisplay:YES];
 }
@@ -616,16 +647,14 @@ int timeBlack = 300;
         }
         return;
     }
-
-    int *b = new int[64];
-    for(int i=0;i<64;i++){
-        b[i] = board.squares[i];
-    }
     
-    movearray a = [wrapper getMoves:pos board:b];
     for(int i=0; i < 64; ++i){
-        activeTo[i] = a.moves[i];
+        activeTo[i] = -1;
     }
+    gettingLegalMoves = true;
+    activePos = 0;
+    string fen = board.getFen(&board);
+    [wrapper getLegalMoves:fen];
 }
 
 - (void)clearBoard{

@@ -12,7 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @interface MainView : NSView{
     IBOutlet NSTextField * fenField;
     IBOutlet NSTextView * gameField;
@@ -57,7 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
     IBOutlet NSButton * btnKnightB;
     IBOutlet NSButton * btnPawnB;
 }
-
 
 - (void)call:(NSString*)b;
 - (void)setGame:(NSString*)png;

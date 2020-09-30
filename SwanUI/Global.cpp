@@ -10,3 +10,4 @@
 std::ofstream myfile;
 
 Listener * listener;
+Listener * listenerEngine;

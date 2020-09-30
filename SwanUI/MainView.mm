@@ -9,6 +9,8 @@
 
 @implementation MainView
 
+
+
 - (void)disablePieceSelection{
     [btnKingW setEnabled: NO];
     [btnQueenW setEnabled: NO];

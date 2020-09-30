@@ -30,15 +30,26 @@ FILE *  fp;
 bool isPRunning = true;
 int aStdinPipe[2];
 int aStdoutPipe[2];
+bool isFindLegalMoves;
 
 class EngineWrapper{
 public:
+    
 
+    string legalMoves;
+    
     static void* staticFunction(void* p)
      {
          static_cast<EngineWrapper*>(p)->runListener();
          return NULL;
      }
+    
+    void getLegalMoves(string fen){
+        isFindLegalMoves = true;
+        legalMoves = "";
+        toEngine("position fen " + fen + "\n");
+        toEngine("go perft 1\n");
+    }
     
     void findMove(string fen){
         toEngine("position fen " + fen + "\n");
@@ -54,7 +65,23 @@ public:
           int n;
           while ( (n = read(aStdoutPipe[PIPE_READ], &buf, 500)) !=-1)  {
               std::string reply(buf, n);
-              cout << reply << endl;
+              
+              if(isFindLegalMoves){
+                  std::stringstream ss(reply);
+                  std::string to;
+                      while(std::getline(ss,to,'\n')){
+                          if (to.rfind("Nodes searched", 0) == 0){
+                              NSString *v = [NSString stringWithCString:legalMoves.c_str() encoding:[NSString defaultCStringEncoding]];
+                              NSDictionary * userInfo = @{ @"move" : v};
+                              [[NSNotificationCenter defaultCenter] postNotificationName:@"cmove" object:nil  userInfo:userInfo];
+                              isFindLegalMoves = false;
+                              continue;
+                          }
+                          legalMoves+= to.substr(0,4) + ",";
+                          continue;
+                      }
+                  continue;
+              }
               
               NSString *v = [NSString stringWithCString:reply.c_str() encoding:[NSString defaultCStringEncoding]];
               NSDictionary * userInfo = @{ @"move" : v};

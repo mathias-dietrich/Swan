@@ -7,6 +7,7 @@
 
 #import "Wrapper.h"
 #include "Engine.h"
+
 #include "EngineWrapper.h"
 
 @interface Wrapper ()
@@ -19,6 +20,10 @@ EngineWrapper pwrapper;
 
 void listen(string msg){
     cout << msg << endl;
+}
+
+- (void)getLegalMoves :(string) fen{
+    pwrapper.getLegalMoves(fen);
 }
 
 - (void)findMove :(string) fen{

@@ -8,6 +8,14 @@
 #ifndef Field_H
 #define Field_H
 
+#include <stdio.h>
+
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <sstream>
+
 #import <Cocoa/Cocoa.h>
 #import <vector>
 #import "Wrapper.h"
@@ -19,6 +27,7 @@
 #include "pg_key.h"
 #include "pg_show.h"
 #include "Config.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -16,7 +16,6 @@
 #include <iostream>
 #include <cstdlib>
 
-#include<thread>
 #include<fstream>
 
 
@@ -30,6 +29,7 @@ public:
 };
 
 extern Listener * listener;
+extern Listener * listenerEngine;
 
 
 
