@@ -35,7 +35,18 @@ int timeWhite = 3000; //
 int timeBlack = 3000;
 
 bool gettingLegalMoves;
+bool checkKingInChess;
 
+-(void) start{
+    [self stopTimer];
+    [self newBoard];
+    timeWhite = 3000; //
+    timeBlack = 3000;
+    [timeW setStringValue: [self getTimeString:timeWhite]];
+    [timeB setStringValue: [self getTimeString:timeBlack]];
+    [self setNeedsDisplay:YES];
+}
+    
 -(void) startTimer{
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
     isClockRunning = true;
@@ -77,6 +88,7 @@ bool gettingLegalMoves;
 - (void)SetWhiteToMove{
     [cToMove setColor:[NSColor whiteColor]];
 }
+
 - (void)SetBlackToMove{
     [cToMove setColor:[NSColor blackColor]];
 }
@@ -89,8 +101,9 @@ bool gettingLegalMoves;
 - (void) receivingMethodOnListener:(NSNotification *) notification{
     NSDictionary *dict = [notification userInfo];
     NSString *move = dict[@"move"];
+    NSLog(@"Incoming from Engine");
     NSLog(move);
-    if ([move length] == 0 ){
+    if([move length] == 0 ){
         return;
     }
     
@@ -99,38 +112,97 @@ bool gettingLegalMoves;
         NSArray *moves = [move componentsSeparatedByString:@","];
         NSEnumerator *e = [moves objectEnumerator];
         NSString * object;
+        int movesCountSpecific=0;
+        int movesCountAll=0;
+        Square kingSq = board.findKingSquare(board.sideToMove);
+        bool foundAttacker = false;
+        
         while (object = [e nextObject]) {
             if(object.length == 0){
+                continue;
+            }
+            if(object == @"\n"){
                 continue;
             }
             NSRange r = NSMakeRange(0,2);
             NSString  *tr = [object substringWithRange:r];
             Square from = getPosFromStr(std::string([tr UTF8String]));
+            if(checkKingInChess){
+                r = NSMakeRange(2,2);
+                NSString  *tr = [object substringWithRange:r];
+                Square to = getPosFromStr(std::string([tr UTF8String]));
+                if(to == kingSq){
+                    foundAttacker = true;
+                    break;
+                }
+                continue;
+            }
             if(hit == from){
                 r = NSMakeRange(2,2);
                 NSString  *tr = [object substringWithRange:r];
                 Square to = getPosFromStr(std::string([tr UTF8String]));
                 activeTo[activePos] = to;
                 activePos++;
+                movesCountSpecific++;
             }
+            movesCountAll++;
+        }
+        
+     
+        if(movesCountSpecific==0){
+            isSelected = false;
+            activeFrom = -1;
+        }
+        if(movesCountAll==0){
+            // stop clocks
+            isClockRunning = false;
+            [self stopTimer];
+            
+            if(checkKingInChess){
+                checkKingInChess = false;
+                if(foundAttacker){
+                    // mate
+                    if(board.sideToMove==BLACK){
+                        game.result = "1-0";
+                    }else{
+                        game.result = "0-1";
+                    }
+                    [self->mainView setGame:@"#"];
+                    
+                }else{
+                    // pat
+                    game.result = "1/2-1/2";
+                    [self->mainView setGame:@" 1/2-1/2"];
+                }
+                return;
+            }
+            
+            // Check if mate
+            checkKingInChess =true;
+            string fen = board.getFen(&board);
+            [wrapper getLegalMoves:fen];
         }
     }
     
+    // standard Move
     int pos = (int)[move rangeOfString:@"bestmove"].location;
     if(pos > -1){
-        NSRange r = NSMakeRange(pos,14);
+        NSRange r = NSMakeRange(pos+9,4);
         NSString *m = [move substringWithRange:r];
-        r = NSMakeRange(9,2);
+        r = NSMakeRange(0,2);
         NSString  *fr = [m substringWithRange:r];
         Square from = getPosFromStr(std::string([fr UTF8String]));
-        r = NSMakeRange(11,2);
+        r = NSMakeRange(2,2);
         NSString  *tr = [m substringWithRange:r];
         Square to = getPosFromStr(std::string([tr UTF8String]));
         Ply ply;
         ply.from = from;
         ply.to = to;
-        ply.strDisplay = ply.str = posFromInt(from) + posFromInt(to);
-
+        string l = board.getPGNCode(board.squares[from]);
+        NSString *letter = [NSString stringWithCString: l.c_str() encoding:[NSString defaultCStringEncoding]];
+        NSString * t = [letter stringByAppendingString:m];
+        ply.str = [m UTF8String];
+        ply.strDisplay = [t UTF8String];
         
         // check for castling
         bool wCastlingS = board.castelingRights & 1;
@@ -405,7 +477,8 @@ bool gettingLegalMoves;
     enum EPiece p = board.squares[ply.from];
     board.squares[ply.from] = EMPTY;
     board.squares[ply.to] = p;
-    
+    activeTo[0] = ply.to;
+    isSelected = false;
     // Color swap
     if(board.sideToMove == WHITE){
         board.sideToMove = BLACK;
@@ -414,7 +487,7 @@ bool gettingLegalMoves;
         board.halfmove++;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *png = [NSString stringWithCString: ply.str.c_str() encoding:[NSString defaultCStringEncoding]];
+        NSString *png = [NSString stringWithCString: ply.strDisplay.c_str() encoding:[NSString defaultCStringEncoding]];
         
         if(self->board.sideToMove == WHITE){
             png = [@" " stringByAppendingString: png];
@@ -502,10 +575,11 @@ bool gettingLegalMoves;
                     board.squares[activeFrom] = EMPTY;
                     board.squares[hit] = p;
                     
-                    
                     ply.from = activeFrom;
                     ply.to = hit;
-                    ply.strDisplay = ply.str = posFromInt(activeFrom) + posFromInt(hit);
+                    ply.str = posFromInt(activeFrom) + posFromInt(hit);
+                    string l = board.getPGNCode(p);
+                    ply.strDisplay = l+ply.str ;
                     
                     // discover castling
                     bool wCastlingS = board.castelingRights & 1;
@@ -575,7 +649,7 @@ bool gettingLegalMoves;
                     [self findMoves:-1];
                     
                     game.plies.push_back(ply);
-                    NSString *png = [NSString stringWithCString: ply.str.c_str() encoding:[NSString defaultCStringEncoding]];
+                    NSString *png = [NSString stringWithCString: ply.strDisplay.c_str() encoding:[NSString defaultCStringEncoding]];
                     if(self->board.sideToMove == WHITE){
                         png = [@" " stringByAppendingString: png];
                     }else{
@@ -600,6 +674,8 @@ bool gettingLegalMoves;
                         ply.from =  getPosFromStr(mv.substr(0,2));
                         ply.to =  getPosFromStr(mv.substr(2,2));
                         ply.str = mv;
+                        string l = board.getPGNCode(board.squares[ply.from]);
+                        ply.strDisplay = l+mv;
                         game.plies.push_back(ply);
                         [self makemove:ply];
                     }

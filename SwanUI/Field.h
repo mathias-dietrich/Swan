@@ -47,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 -(void) startTimer;
+-(void) stopTimer;
+- (void)start;
 - (void)flip;
 - (void)setup;
 - (void)close;

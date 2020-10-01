@@ -1221,19 +1221,19 @@
                             <action selector="resetBoard:" target="EiT-Mj-1SZ" id="icm-Ny-9RR"/>
                         </connections>
                     </button>
-                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJF-6l-Jw0">
+                    <scrollView fixedFrame="YES" borderType="line" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJF-6l-Jw0">
                         <rect key="frame" x="823" y="51" width="599" height="554"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="p9n-M0-kt9">
-                            <rect key="frame" x="0.0" y="0.0" width="599" height="554"/>
+                            <rect key="frame" x="1" y="1" width="582" height="552"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="8SG-UE-MO6">
-                                    <rect key="frame" x="0.0" y="0.0" width="599" height="554"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="582" height="552"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="599" height="554"/>
+                                    <size key="minSize" width="582" height="552"/>
                                     <size key="maxSize" width="607" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -1261,7 +1261,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="p3Q-gp-mhy">
-                            <rect key="frame" x="583" y="0.0" width="16" height="554"/>
+                            <rect key="frame" x="583" y="1" width="15" height="552"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

@@ -68,6 +68,7 @@
     NSString    *text        = [gameField string];
     NSString *joinedString = [text stringByAppendingString:png];
     [gameField setString:joinedString];
+    [self setNeedsDisplay:YES];
 }
 - (void)call:(NSString*)b{
     NSDictionary * userInfo = @{ @"btn" :b};

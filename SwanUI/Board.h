@@ -11,6 +11,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <boost/algorithm/string.hpp>
 
 #include "Types.h"
 #include "Global.h"
@@ -53,6 +54,18 @@ public:
     Color sideToMove;
     int currentPly;
     
+    Square findKingSquare(Color color){
+        for(int i=0;i<64;i++){
+            if(color==WHITE && squares[i] == W_KING){
+                return (Square)i;
+            }
+            if(color==BLACK && squares[i] == B_KING){
+                return (Square)i;
+            }
+        }
+        return SQ_NONE;
+    }
+    
    // bool w_casteS = true;
     //  bool w_casteL= true;
     // bool b_casteS= true;
@@ -67,6 +80,57 @@ public:
         squares[to] =  squares[from];
         squares[from] = EMPTY;
     }
+    string getPGNCode(EPiece piece){
+        if(piece == W_PAWN  || piece == B_PAWN ){
+            return "";
+        }
+        string l = getPieceLetter(piece);
+        l = boost::to_upper_copy<std::string>(l);
+        return l;
+    }
+    
+    string getPieceLetter(EPiece piece){
+        switch(piece){
+            case B_PAWN:
+                return "p" ;
+                
+            case W_PAWN:
+                return "P";
+                
+            case B_ROOK:
+                return "r";
+                
+            case W_ROOK:
+                return "R";
+
+            case B_KNIGHT:
+                return "n";
+                
+            case W_KNIGHT:
+                return "N";
+
+            case B_BISHOP:
+                return "b";
+
+            case W_BISHOP:
+                return "B";
+ 
+            case B_QUEEN:
+                return "q";
+
+            case W_QUEEN:
+                return"Q";
+
+            case B_KING:
+                return"K";
+
+            case W_KING:
+                return "K";
+
+            default:
+                return " ";
+        }
+    }
     
     void print(){
         myfile << "  A B C D E F G H" << endl;
@@ -75,59 +139,7 @@ public:
             myfile  << " ";
             for(int x=0; x<8; ++x){
                 Square sq = (Square) (((i-1) * 8) + x);
-                switch(squares[sq]){
-                    case B_PAWN:
-                        myfile  << "p ";
-                        break;
-                        
-                    case W_PAWN:
-                        myfile  << "P ";
-                        break;
-                        
-                    case B_ROOK:
-                        myfile  << "r ";
-                        break;
-                        
-                    case W_ROOK:
-                        myfile  << "R ";
-                        break;
-                        
-                    case B_KNIGHT:
-                        myfile  << "n ";
-                        break;
-                        
-                    case W_KNIGHT:
-                        myfile  << "N ";
-                        break;
-                        
-                    case B_BISHOP:
-                        myfile  << "b ";
-                        break;
-                        
-                    case W_BISHOP:
-                        myfile  << "B ";
-                        break;
-                        
-                    case B_QUEEN:
-                        myfile  << "q ";
-                        break;
-                        
-                    case W_QUEEN:
-                        myfile  << "Q ";
-                        break;
-                        
-                    case B_KING:
-                        myfile  << "K ";
-                        break;
-                        
-                    case W_KING:
-                        myfile  << "K ";
-                        break;
-                        
-                    default:
-                        myfile  << "  ";
-                        break;
-                }
+                myfile << getPieceLetter(squares[sq]) << " ";
             }
             myfile  << i << endl;
         }
