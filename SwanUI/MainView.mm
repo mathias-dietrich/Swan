@@ -65,17 +65,13 @@
 }
 
 - (void)setGame:(NSString*)png{
-    NSString    *text        = [gameField string];
-    NSString *joinedString = [text stringByAppendingString:png];
-    [gameField setString:joinedString];
+    [gameField setString:png];
     [self setNeedsDisplay:YES];
 }
 - (void)call:(NSString*)b{
     NSDictionary * userInfo = @{ @"btn" :b};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"btn" object:nil  userInfo:userInfo];
 }
-
-
 
 - (IBAction)top:(id)sender{
     [self call:@"top"];

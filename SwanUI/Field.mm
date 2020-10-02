@@ -56,8 +56,8 @@ bool checkKingInChess;
     isClockRunning = false;
     if ([_timer isValid]) {
           [_timer invalidate];
-      }
-      _timer = nil;
+    }
+    _timer = nil;
 }
 - (NSString*) getTimeString:(int)seconds{ // these are 1/10 second
     seconds /= 10;
@@ -65,20 +65,30 @@ bool checkKingInChess;
     int sec = seconds - (minutes*60);
     NSString *s = [NSString stringWithFormat:@"%d",minutes];
     s = [s stringByAppendingString:@":"];
-    s = [s stringByAppendingString:[NSString stringWithFormat:@"%d",sec]];
+    NSString * sc = [NSString stringWithFormat:@"%d",sec];
+    if([sc length] == 1){
+        sc = [@"0" stringByAppendingString:sc];
+    }
+    s = [s stringByAppendingString:sc];
     return s;
 }
 
 - (void)_timerFired:(NSTimer *)timer {
-    if(board.sideToMove == WHITE){
+    if(board.sideToMove==WHITE){
         timeWhite--;
         if(timeWhite==0){
-            // TODO
+            [self stopTimer];
+            game.result = "0-1";
+            NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+            [self->mainView setGame:p];
         }
     }else{
         timeBlack--;
         if(timeBlack==0){
-            // TODO
+            [self stopTimer];
+            game.result = "1-0";
+            NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+            [self->mainView setGame:p];
         }
     }
     [timeW setStringValue: [self getTimeString:timeWhite]];
@@ -102,7 +112,6 @@ bool checkKingInChess;
     NSDictionary *dict = [notification userInfo];
     NSString *move = dict[@"move"];
     NSLog(@"Incoming from Engine");
-    NSLog(move);
     if([move length] == 0 ){
         return;
     }
@@ -148,7 +157,6 @@ bool checkKingInChess;
             movesCountAll++;
         }
         
-     
         if(movesCountSpecific==0){
             isSelected = false;
             activeFrom = -1;
@@ -167,12 +175,13 @@ bool checkKingInChess;
                     }else{
                         game.result = "0-1";
                     }
-                    [self->mainView setGame:@"#"];
-                    
+                    NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+                    [self->mainView setGame:p];
                 }else{
                     // pat
                     game.result = "1/2-1/2";
-                    [self->mainView setGame:@" 1/2-1/2"];
+                    NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+                    [self->mainView setGame:p];
                 }
                 return;
             }
@@ -340,7 +349,6 @@ bool checkKingInChess;
         [self setNeedsDisplay:YES];
         return;
     }
-    
     if([btnPressed  isEqual: @"clearBoard"]){
         isSetMode = true;
         for(int i=0; i < 64;i++){
@@ -383,7 +391,6 @@ bool checkKingInChess;
     if([btnPressed  isEqual: @"reign"]){
         return;
     }
-    
     if([btnPressed  isEqual: @"setQueenW"]){
         if(isWhitePromotion){
             ply.str += "q";
@@ -487,21 +494,13 @@ bool checkKingInChess;
         board.halfmove++;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *png = [NSString stringWithCString: ply.strDisplay.c_str() encoding:[NSString defaultCStringEncoding]];
-        
-        if(self->board.sideToMove == WHITE){
-            png = [@" " stringByAppendingString: png];
-        }else{
-            NSString *strFromInt = [NSString stringWithFormat:@"\n%d", board.halfmove];
-            strFromInt = [strFromInt stringByAppendingString: @ ". "];
-            png = [strFromInt stringByAppendingString: png];
-        }
         if(self->board.sideToMove == WHITE){
             [self SetWhiteToMove];
         }else{
             [self SetBlackToMove];
         }
-        [self->mainView setGame:png];
+        NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+        [self->mainView setGame:p];
         [self setNeedsDisplay:YES];
     });
 }
@@ -649,16 +648,8 @@ bool checkKingInChess;
                     [self findMoves:-1];
                     
                     game.plies.push_back(ply);
-                    NSString *png = [NSString stringWithCString: ply.strDisplay.c_str() encoding:[NSString defaultCStringEncoding]];
-                    if(self->board.sideToMove == WHITE){
-                        png = [@" " stringByAppendingString: png];
-                    }else{
-                        NSString *strFromInt = [NSString stringWithFormat:@"\n%d", board.halfmove];
-                        strFromInt = [strFromInt stringByAppendingString: @ ". "];
-                        png = [strFromInt stringByAppendingString: png];
-                    }
-                    
-                    [self->mainView setGame:png];
+                    NSString *pstr = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+                    [self->mainView setGame:pstr];
                     
                     string fen = board.getFen(&board);
                     NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
@@ -782,6 +773,9 @@ bool checkKingInChess;
     board.squares[62] = B_KNIGHT;
     board.squares[63] = B_ROOK;
     board.sideToMove = WHITE;
+    
+    game.plies.clear();
+    game.result = "";
 }
 
 - (void)close{
@@ -812,8 +806,7 @@ bool checkKingInChess;
     [self setNeedsDisplay:YES];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-    {
+- (void)windowWillClose:(NSNotification *)notification{
         NSWindow *win = [notification object];
         [self close];
     }
