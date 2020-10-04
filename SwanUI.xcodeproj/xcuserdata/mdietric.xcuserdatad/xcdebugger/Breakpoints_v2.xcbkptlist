@@ -151,22 +151,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "85641265-1529-47B2-A1BC-073A16AE0180"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SwanUI/EngineWrapper.h"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "runListener()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "D97D56BE-B324-4ADF-B2F6-D99F734BC011"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -785,6 +769,38 @@
             startingLineNumber = "87"
             endingLineNumber = "87"
             landmarkName = "getPGNCode(piece)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "931BC57E-928A-433F-B4B4-715C8DD24841"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwanUI/Wrapper.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "-getLegalMoves:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1DBF2E1A-48CB-4E82-8823-E35075E911B2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwanUI/EngineWrapper.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "runListener()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

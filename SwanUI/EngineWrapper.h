@@ -26,30 +26,14 @@
 namespace bp = ::boost::process;
 using namespace std;
 
-FILE *  fp;
-bool isPRunning = true;
-int aStdinPipe[2];
-int aStdoutPipe[2];
-bool isFindLegalMoves;
-
 class EngineWrapper{
 public:
-    
-
-    string legalMoves;
     
     static void* staticFunction(void* p)
      {
          static_cast<EngineWrapper*>(p)->runListener();
          return NULL;
      }
-    
-    void getLegalMoves(string fen){
-        isFindLegalMoves = true;
-        legalMoves = "";
-        toEngine("position fen " + fen + "\n");
-        toEngine("go perft 1\n");
-    }
     
     void findMove(string fen){
         toEngine("position fen " + fen + "\n");
@@ -65,7 +49,7 @@ public:
           int n;
           while ( (n = read(aStdoutPipe[PIPE_READ], &buf, 500)) !=-1)  {
               std::string reply(buf, n);
-              
+              /*
               if(isFindLegalMoves){
                   std::stringstream ss(reply);
                   std::string to;
@@ -82,6 +66,7 @@ public:
                       }
                   continue;
               }
+               */
               
               NSString *v = [NSString stringWithCString:reply.c_str() encoding:[NSString defaultCStringEncoding]];
               NSDictionary * userInfo = @{ @"move" : v};
@@ -111,7 +96,7 @@ public:
             return -1;
         }
         char env[] = "OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES";
-        int p = putenv(env);
+        putenv(env);
         nChild = fork();
         if (0 == nChild) {
             // child continues here
@@ -165,39 +150,27 @@ public:
         write(aStdinPipe[PIPE_WRITE],c , strlen(c));
     }
 
-    void init(){
+    void init(string enginepath){
         isPRunning = true;
-        
-        /*
-        bp::ipstream pipe_stream;
-        bp::child c("gcc --version", bp::std_out > pipe_stream);
-
-        std::string line;
-
-        while (pipe_stream && std::getline(pipe_stream, line) && !line.empty())
-            std::cerr << line << std::endl;
-        */
-        
-     // int p = createChild("/usr/local/bin/python3");
-
-      int p = createChild("/Users/mdietric/Swan/engines/stockfish");
-
-        pthread_create(&threads[0], NULL,  staticFunction, this);
-
-
+        createChild(enginepath.c_str());
+        pthread_create(&thread, NULL,  staticFunction, this);
     }
     
     void close(){
-        toEngine("quit\n");
-        isPRunning = false;
-        pclose(fp);
+        if(isPRunning){
+            toEngine("quit\n");
+            isPRunning = false;
+            pclose(fp);
+        }
     }
     
-   
-    
 private:
-
-     pthread_t threads[2];
+    FILE *  fp;
+    bool isPRunning = true;
+    int aStdinPipe[2];
+    int aStdoutPipe[2];
+    string legalMoves;
+    pthread_t thread;
 };
 
 #endif /* PythonWrapper_h */

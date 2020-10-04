@@ -16,7 +16,6 @@
 
 @end
 
-
 typedef struct{
     int moves[64];
     int board[64];
@@ -24,14 +23,15 @@ typedef struct{
 
 @interface Wrapper : NSObject<Listener>
 
-
 void listen(string msg);
-- (void)findMove :(string) fen;
+- (void)findMove0 :(string) fen;
+- (void)findMove1 :(string) fen;
 - (void)initWrapper;
 - (void)close;
-- (NSString *)getHelloString;
-- (movearray)getMoves:(int) pos board: (int []) board;
 - (void)getLegalMoves :(string) fen;
+
+- (void)initEngine0:(string) path;
+- (void)initEngine1:(string) path;
 
 @end
 

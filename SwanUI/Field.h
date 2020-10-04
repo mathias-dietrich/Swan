@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)clearBoard;
 - (void)SetWhiteToMove;
 - (void)SetBlackToMove;
-
+- (void) receivingVengine:(NSNotification *) notification;
 NS_ASSUME_NONNULL_END
 @end
 

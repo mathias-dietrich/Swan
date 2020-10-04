@@ -52,6 +52,8 @@
 		4F5EC97D251D277E00EF69F0 /* SwanUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwanUI.entitlements; sourceTree = "<group>"; };
 		4F5EC988251D379D00EF69F0 /* pieces */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pieces; sourceTree = "<group>"; };
 		4F5EC998251D39CD00EF69F0 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		4FBD3AED25299B17000AE568 /* VEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VEngine.h; sourceTree = "<group>"; };
+		4FBD3AEF2529AF94000AE568 /* Zobrist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Zobrist.h; sourceTree = "<group>"; };
 		4FCE7D6A25211F4900B23611 /* MainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		4FCE7D6C252121D500B23611 /* MainView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainView.mm; sourceTree = "<group>"; };
 		4FCE7D712521F70C00B23611 /* Game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
@@ -90,7 +92,9 @@
 				4F26C7EB251E439700050C2A /* Thread.h */,
 				4F26C7ED251E439700050C2A /* Types.h */,
 				4F487CD625206C33006C2901 /* EngineWrapper.h */,
+				4FBD3AED25299B17000AE568 /* VEngine.h */,
 				4FCE7D712521F70C00B23611 /* Game.h */,
+				4FBD3AEF2529AF94000AE568 /* Zobrist.h */,
 			);
 			name = Engine;
 			sourceTree = "<group>";

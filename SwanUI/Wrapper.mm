@@ -6,55 +6,52 @@
 //
 
 #import "Wrapper.h"
-#include "Engine.h"
-
 #include "EngineWrapper.h"
+#include "VEngine.h"
 
 @interface Wrapper ()
 
 @end
 
 @implementation Wrapper
-Engine engine;
-EngineWrapper pwrapper;
+
+EngineWrapper engine0;
+EngineWrapper engine1;
+VEngine vEngine;
 
 void listen(string msg){
     cout << msg << endl;
 }
 
 - (void)getLegalMoves :(string) fen{
-    pwrapper.getLegalMoves(fen);
+    vEngine.getLegalMoves(fen);
 }
 
-- (void)findMove :(string) fen{
-    pwrapper.findMove(fen);
+- (void)findMove0:(string) fen{
+    engine0.findMove(fen);
 }
+- (void)findMove1:(string) fen{
+    engine1.findMove(fen);
+}
+
+- (void)initEngine0:(string) path{
+    engine0.close();
+    engine0.init(path);
+}
+- (void)initEngine1:(string) path{
+    engine1.close();
+    engine1.init(path);
+}
+
 - (void)initWrapper{
-    pwrapper.init();
     listener = ( Listener*)CFBridgingRetain(self);
+    vEngine.init("/Users/mdietric/Swan/engines/stockfish");
 }
 
 - (void)close{
-    pwrapper.close();
-}
-
-- (NSString *)getHelloString {
-    NSString *msg = [NSString stringWithCString:engine.getTestString().c_str() encoding:[NSString defaultCStringEncoding]];
-    return msg;
-}
-
-- (movearray)getMoves:(int) pos board: (int []) board{
-    movearray moves ;
-    for(int i =0;i<64;i++){
-        moves.moves[i] = -1;
-    }
-    int i=0;
-    vector<int> m = engine.getMoves(pos,board );
-    for (int n : m)  {
-        moves.moves[i] = n;
-        ++i;
-    }
-    return moves;
+    engine0.close();
+    engine1.close();
+    vEngine.close();
 }
 
 @end

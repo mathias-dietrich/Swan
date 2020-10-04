@@ -37,6 +37,10 @@ int timeBlack = 3000;
 bool gettingLegalMoves;
 bool checkKingInChess;
 
+string engineFolder = "/Users/mdietric/Swan/engines/";
+string engineName0 = "stockfish";
+string engineName1 = "stockfish";
+
 -(void) start{
     [self stopTimer];
     [self newBoard];
@@ -108,89 +112,94 @@ bool checkKingInChess;
  Make Engine Move
  ====================================================================================
  */
+- (void) receivingVengine:(NSNotification *) notification{
+    NSDictionary *dict = [notification userInfo];
+    NSString *move = dict[@"move"];
+    NSLog(@"Incoming from VEngine");
+    if([move length] == 0 ){
+        return;
+    }
+    NSArray *moves = [move componentsSeparatedByString:@","];
+    NSEnumerator *e = [moves objectEnumerator];
+    NSString * object;
+    int movesCountSpecific=0;
+    int movesCountAll=0;
+    Square kingSq = board.findKingSquare(board.sideToMove);
+    bool foundAttacker = false;
+    
+    while (object = [e nextObject]) {
+        if(object.length == 0){
+            continue;
+        }
+        if(object == @"\n"){
+            continue;
+        }
+        NSRange r = NSMakeRange(0,2);
+        NSString  *tr = [object substringWithRange:r];
+        Square from = getPosFromStr(std::string([tr UTF8String]));
+        if(checkKingInChess){
+            r = NSMakeRange(2,2);
+            NSString  *tr = [object substringWithRange:r];
+            Square to = getPosFromStr(std::string([tr UTF8String]));
+            if(to == kingSq){
+                foundAttacker = true;
+                break;
+            }
+            continue;
+        }
+        if(hit == from){
+            r = NSMakeRange(2,2);
+            NSString  *tr = [object substringWithRange:r];
+            Square to = getPosFromStr(std::string([tr UTF8String]));
+            activeTo[activePos] = to;
+            activePos++;
+            movesCountSpecific++;
+        }
+        movesCountAll++;
+    }
+    
+    if(movesCountSpecific==0){
+        isSelected = false;
+        activeFrom = -1;
+    }
+    if(movesCountAll==0){
+        // stop clocks
+        isClockRunning = false;
+        [self stopTimer];
+        
+        if(checkKingInChess){
+            checkKingInChess = false;
+            if(foundAttacker){
+                // mate
+                if(board.sideToMove==BLACK){
+                    game.result = "1-0";
+                }else{
+                    game.result = "0-1";
+                }
+                NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+                [self->mainView setGame:p];
+            }else{
+                // pat
+                game.result = "1/2-1/2";
+                NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+                [self->mainView setGame:p];
+            }
+            return;
+        }
+        
+        // Check if mate
+        checkKingInChess =true;
+        string fen = board.getFen(&board);
+        [wrapper getLegalMoves:fen];
+    }
+}
+
 - (void) receivingMethodOnListener:(NSNotification *) notification{
     NSDictionary *dict = [notification userInfo];
     NSString *move = dict[@"move"];
     NSLog(@"Incoming from Engine");
     if([move length] == 0 ){
         return;
-    }
-    
-    // Legal Moves
-    if(gettingLegalMoves){
-        NSArray *moves = [move componentsSeparatedByString:@","];
-        NSEnumerator *e = [moves objectEnumerator];
-        NSString * object;
-        int movesCountSpecific=0;
-        int movesCountAll=0;
-        Square kingSq = board.findKingSquare(board.sideToMove);
-        bool foundAttacker = false;
-        
-        while (object = [e nextObject]) {
-            if(object.length == 0){
-                continue;
-            }
-            if(object == @"\n"){
-                continue;
-            }
-            NSRange r = NSMakeRange(0,2);
-            NSString  *tr = [object substringWithRange:r];
-            Square from = getPosFromStr(std::string([tr UTF8String]));
-            if(checkKingInChess){
-                r = NSMakeRange(2,2);
-                NSString  *tr = [object substringWithRange:r];
-                Square to = getPosFromStr(std::string([tr UTF8String]));
-                if(to == kingSq){
-                    foundAttacker = true;
-                    break;
-                }
-                continue;
-            }
-            if(hit == from){
-                r = NSMakeRange(2,2);
-                NSString  *tr = [object substringWithRange:r];
-                Square to = getPosFromStr(std::string([tr UTF8String]));
-                activeTo[activePos] = to;
-                activePos++;
-                movesCountSpecific++;
-            }
-            movesCountAll++;
-        }
-        
-        if(movesCountSpecific==0){
-            isSelected = false;
-            activeFrom = -1;
-        }
-        if(movesCountAll==0){
-            // stop clocks
-            isClockRunning = false;
-            [self stopTimer];
-            
-            if(checkKingInChess){
-                checkKingInChess = false;
-                if(foundAttacker){
-                    // mate
-                    if(board.sideToMove==BLACK){
-                        game.result = "1-0";
-                    }else{
-                        game.result = "0-1";
-                    }
-                    NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
-                    [self->mainView setGame:p];
-                }else{
-                    // pat
-                    game.result = "1/2-1/2";
-                    NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
-                    [self->mainView setGame:p];
-                }
-                return;
-            }
-            
-            // Check if mate
-            checkKingInChess =true;
-            string fen = board.getFen(&board);
-            [wrapper getLegalMoves:fen];
-        }
     }
     
     // standard Move
@@ -659,7 +668,7 @@ bool checkKingInChess;
                     U64 hash =  pgkey.findHash(fen);
                     string mv = pgshow.readBook(hash, bookPath);
                     if("ERR" == mv){
-                        [wrapper findMove :fen];
+                        [wrapper findMove0 :fen];
                     }else{
                         Ply ply;
                         ply.from =  getPosFromStr(mv.substr(0,2));
@@ -784,12 +793,28 @@ bool checkKingInChess;
     [NSApp terminate:self];
 }
 
+- (void)setupEngine0:(string)name{
+    [wrapper initEngine0: engineFolder+name];
+}
+
+- (void)setupEngine1:(string)name{
+    [wrapper initEngine1: engineFolder+name];
+}
+
 - (void)setup{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:self.window];
     activeFrom = -1;
     [self newBoard];
     wrapper = [Wrapper alloc];
     [wrapper initWrapper];
+    [self setupEngine0: engineName0];
+    [self setupEngine1: engineName1];
+    
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(receivingVengine:)
+        name:@"vengine"
+        object:nil];
     
     [[NSNotificationCenter defaultCenter]
         addObserver:self
