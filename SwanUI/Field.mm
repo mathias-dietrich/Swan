@@ -37,32 +37,101 @@ int timeBlack = 3000;
 bool gettingLegalMoves;
 bool checkKingInChess;
 
+TBoard board;
+
 string engineFolder = "/Users/mdietric/Swan/engines/";
-string engineName0 = "stockfish";
+string engineName0 = "Komodo";
+//string engineName0 = "stockfish";
 string engineName1 = "stockfish";
 
+bool isWhiteHuman = true;
+bool isBlackHuman = false;
+
 -(void) start{
+    if(engineName0 == "Player"){
+        isWhiteHuman = true;
+    }else{
+        isWhiteHuman = false;
+    }
+    if(engineName1 == "Player"){
+        isBlackHuman = true;
+    }else{
+        isBlackHuman = false;
+    }
     [self stopTimer];
     [self newBoard];
     timeWhite = 3000; //
     timeBlack = 3000;
     [timeW setStringValue: [self getTimeString:timeWhite]];
     [timeB setStringValue: [self getTimeString:timeBlack]];
+    
+    if(!isWhiteHuman){
+        [self startTimer];
+        string fen = board.getFen(&board);
+        NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
+
+        //  Check book
+        U64 hash =  pgkey.findHash(fen);
+        string mv = pgshow.readBook(hash, bookPath);
+        if("ERR" == mv){
+            [wrapper findMove0 :fen];
+        }else{
+            Ply ply;
+            ply.from =  getPosFromStr(mv.substr(0,2));
+            ply.to =  getPosFromStr(mv.substr(2,2));
+            ply.str = mv;
+            string l = board.getPGNCode(board.squares[ply.from]);
+            ply.strDisplay = l+mv;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+        }
+        activeFrom =-1;
+    }
     [self setNeedsDisplay:YES];
 }
-    
+
+-(void)comboBoxSelectionDidChange:(NSNotification *)notification{
+    if ([notification object] == drpEngine0) {
+        NSString *engineName = [drpEngine0 objectValueOfSelectedItem];
+        engineName0 = std::string([engineName UTF8String]);
+        if(engineName0 == "Player"){
+            isWhiteHuman = true;
+            return;
+        }
+        [self setupEngine0:engineName0];
+        isWhiteHuman = false;
+   }
+   else if ([notification object] == drpEngine1) {
+       NSString *engineName = [drpEngine1 objectValueOfSelectedItem];
+       engineName1 = std::string([engineName UTF8String]);
+       if(engineName1 == "Player"){
+           isBlackHuman = true;
+           return;
+       }
+       [self setupEngine1:engineName1];
+       isBlackHuman = false;
+   }
+}
+
 -(void) startTimer{
+    if( isClockRunning){
+        return;
+    }
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
     isClockRunning = true;
 }
 
 -(void) stopTimer{
+    if( !isClockRunning){
+        return;
+    }
     isClockRunning = false;
     if ([_timer isValid]) {
           [_timer invalidate];
     }
     _timer = nil;
 }
+
 - (NSString*) getTimeString:(int)seconds{ // these are 1/10 second
     seconds /= 10;
     int minutes = seconds/60;
@@ -115,7 +184,6 @@ string engineName1 = "stockfish";
 - (void) receivingVengine:(NSNotification *) notification{
     NSDictionary *dict = [notification userInfo];
     NSString *move = dict[@"move"];
-    NSLog(@"Incoming from VEngine");
     if([move length] == 0 ){
         return;
     }
@@ -197,7 +265,7 @@ string engineName1 = "stockfish";
 - (void) receivingMethodOnListener:(NSNotification *) notification{
     NSDictionary *dict = [notification userInfo];
     NSString *move = dict[@"move"];
-    NSLog(@"Incoming from Engine");
+    NSLog(move);
     if([move length] == 0 ){
         return;
     }
@@ -323,6 +391,48 @@ string engineName1 = "stockfish";
         
         game.plies.push_back(ply);
         [self makemove:ply];
+        
+        if(board.sideToMove == WHITE && isWhiteHuman){
+            return;
+        }
+        if(board.sideToMove == BLACK && isBlackHuman){
+            return;
+        }
+      
+        // engines on both sides
+        string fen = board.getFen(&board);
+        NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->mainView setFen:fens];
+            [self setNeedsDisplay:YES];
+        });
+        
+        //  Check book
+        U64 hash =  pgkey.findHash(fen);
+        string mv = pgshow.readBook(hash, bookPath);
+        if("ERR" == mv){
+            [wrapper findMove0 :fen];
+        }else{
+            Ply ply;
+            ply.from =  getPosFromStr(mv.substr(0,2));
+            ply.to =  getPosFromStr(mv.substr(2,2));
+            ply.str = mv;
+            string l = board.getPGNCode(board.squares[ply.from]);
+            ply.strDisplay = l+mv;
+            game.plies.push_back(ply);
+            [self makemove:ply];
+            
+            if(board.sideToMove == WHITE && isWhiteHuman){
+                return;
+            }
+            if(board.sideToMove == BLACK && isBlackHuman){
+                return;
+            }
+            NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
+            [wrapper findMove0 :fen];
+        }
+        activeFrom =-1;
     }
 }
 
@@ -693,6 +803,12 @@ string engineName1 = "stockfish";
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
+    if(board.sideToMove == WHITE && !isWhiteHuman){
+        return;
+    }
+    if(board.sideToMove == BLACK && !isBlackHuman){
+        return;
+    }
     NSPoint curPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     int x = curPoint.x-BORDER;
     int y = curPoint.y-BORDER;
@@ -828,6 +944,8 @@ string engineName1 = "stockfish";
         name:@"btn"
         object:nil];
     
+    self->drpEngine0.delegate = self;
+    self->drpEngine1.delegate = self;
     [self setNeedsDisplay:YES];
 }
 
@@ -953,7 +1071,6 @@ string engineName1 = "stockfish";
     }
     
     for(int i =0;i<64;++i){
-        
         int p = i;
         if(isFliped){
             p = 63-p;

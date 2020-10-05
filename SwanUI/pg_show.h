@@ -135,7 +135,6 @@ public:
         char move_s[6];
         int total_weight;
         
-        
         f=fopen(file_name,"rb");
         if(!f){
             perror(file_name);
@@ -175,15 +174,14 @@ public:
         }
         for(i=0;i<count;i++){
             move_to_string(move_s,entries[i].move);
-            
             printf("move=%s weight=%5.2f%%\n",
                    move_s,
                    100*((double) entries[i].weight/ (double) total_weight));
             move = move_s;
         }
+        fclose(f);
         return move;
     }
-    
 };
 
 #endif

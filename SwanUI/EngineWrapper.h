@@ -49,25 +49,6 @@ public:
           int n;
           while ( (n = read(aStdoutPipe[PIPE_READ], &buf, 500)) !=-1)  {
               std::string reply(buf, n);
-              /*
-              if(isFindLegalMoves){
-                  std::stringstream ss(reply);
-                  std::string to;
-                      while(std::getline(ss,to,'\n')){
-                          if (to.rfind("Nodes searched", 0) == 0){
-                              NSString *v = [NSString stringWithCString:legalMoves.c_str() encoding:[NSString defaultCStringEncoding]];
-                              NSDictionary * userInfo = @{ @"move" : v};
-                              [[NSNotificationCenter defaultCenter] postNotificationName:@"cmove" object:nil  userInfo:userInfo];
-                              isFindLegalMoves = false;
-                              continue;
-                          }
-                          legalMoves+= to.substr(0,4) + ",";
-                          continue;
-                      }
-                  continue;
-              }
-               */
-              
               NSString *v = [NSString stringWithCString:reply.c_str() encoding:[NSString defaultCStringEncoding]];
               NSDictionary * userInfo = @{ @"move" : v};
               [[NSNotificationCenter defaultCenter] postNotificationName:@"cmove" object:nil  userInfo:userInfo];
@@ -90,8 +71,6 @@ public:
             return -1;
         }
         if (pipe(aStdoutPipe) < 0) {
-            //close(aStdinPipe[PIPE_READ]);
-            //close(aStdinPipe[PIPE_WRITE]);
             perror("allocating pipe for child output redirect");
             return -1;
         }

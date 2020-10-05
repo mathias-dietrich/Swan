@@ -864,6 +864,8 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <connections>
                             <outlet property="cToMove" destination="VqZ-UR-ffS" id="Ufm-OC-st5"/>
+                            <outlet property="drpEngine0" destination="1sG-nB-Kfw" id="i9f-EX-7mK"/>
+                            <outlet property="drpEngine1" destination="zj7-I8-01r" id="uxd-lc-iIU"/>
                             <outlet property="mainView" destination="EiT-Mj-1SZ" id="ibN-NQ-1nP"/>
                             <outlet property="timeB" destination="PXC-kC-OOT" id="CPY-vt-zsf"/>
                             <outlet property="timeW" destination="fAm-uP-r4c" id="Oha-e9-zua"/>
@@ -1160,12 +1162,17 @@
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1sG-nB-Kfw">
                         <rect key="frame" x="824" y="820" width="128" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Player" drawsBackground="YES" completes="NO" numberOfVisibleItems="2" id="fdS-jx-XWv">
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Player" drawsBackground="YES" completes="NO" numberOfVisibleItems="7" id="fdS-jx-XWv">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             <objectValues>
                                 <string>Player</string>
+                                <string>Komodo</string>
+                                <string>Arasanx</string>
+                                <string>BBengine</string>
+                                <string>Senpai</string>
+                                <string>stockfish</string>
                                 <string>Swan</string>
                             </objectValues>
                         </comboBoxCell>
@@ -1173,12 +1180,17 @@
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zj7-I8-01r">
                         <rect key="frame" x="967" y="820" width="128" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Swan" drawsBackground="YES" numberOfVisibleItems="2" id="m4S-I7-VbW">
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="stockfish" drawsBackground="YES" numberOfVisibleItems="7" id="m4S-I7-VbW">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             <objectValues>
                                 <string>Player</string>
+                                <string>stockfish</string>
+                                <string>Komodo</string>
+                                <string>Arasanx</string>
+                                <string>BBengine</string>
+                                <string>Senpai</string>
                                 <string>Swan</string>
                             </objectValues>
                         </comboBoxCell>

@@ -28,24 +28,30 @@
 #include "pg_show.h"
 #include "Config.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Field : NSView{
+@interface Field : NSView <NSComboBoxDelegate>{
     
     // Main View
     IBOutlet MainView * mainView;
     IBOutlet NSColorWell * cToMove;
     IBOutlet NSTextField * timeW;
     IBOutlet NSTextField * timeB;
+    
+    IBOutlet NSComboBox * drpEngine0;
+    IBOutlet NSComboBox * drpEngine1;
+    
     NSTimer *_timer;
     // the board shown in the UI
     TBoard board;
     
     // the PGN notated game shown in the UI
     Game game;
+    
+    bool checkKingInChess;
 }
 
+-(void)comboBoxSelectionDidChange:(NSNotification *)notification;
 -(void) startTimer;
 -(void) stopTimer;
 - (void)start;
@@ -57,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)SetWhiteToMove;
 - (void)SetBlackToMove;
 - (void) receivingVengine:(NSNotification *) notification;
+
 NS_ASSUME_NONNULL_END
 @end
 
