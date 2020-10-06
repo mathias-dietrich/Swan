@@ -72,6 +72,10 @@ inline File getFile(char x){
     return (File)(int) (x - 97);
 }
 
+enum EngineState {
+  GETLEGAL, FINDMOVE, USERFROM, USERTO, MATE, PAT, RESIGN, STOPPED
+};
+
 enum Rank {
   RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NB
 };

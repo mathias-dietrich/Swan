@@ -37,6 +37,7 @@ int timeBlack = 3000;
 bool gettingLegalMoves;
 bool checkKingInChess;
 
+EngineState engineState = STOPPED;
 TBoard board;
 
 string engineFolder = "/Users/mdietric/Swan/engines/";
@@ -65,6 +66,83 @@ bool isBlackHuman = false;
     [timeW setStringValue: [self getTimeString:timeWhite]];
     [timeB setStringValue: [self getTimeString:timeBlack]];
     
+    engineState = GETLEGAL;
+    [self go];
+}
+    
+- (void)go{
+    string fen = board.getFen(&board);
+    NSString *fenstr = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
+    switch(engineState){
+        case GETLEGAL:
+            for(int i=0; i < 64; ++i){
+                activeTo[i] = -1;
+            }
+            [wrapper getLegalMoves:fen];
+            break;
+            
+        case FINDMOVE:
+        {
+            // Is human
+            if((board.sideToMove == WHITE && isWhiteHuman) || (board.sideToMove == BLACK && isBlackHuman)){
+                return;
+            }
+            // does Book know
+            U64 hash =  pgkey.findHash(fen);
+            string mv = pgshow.readBook(hash, bookPath);
+            if("ERR" == mv){
+                [wrapper findMove0 :fen];
+            }else{
+                Ply ply;
+                ply.from =  getPosFromStr(mv.substr(0,2));
+                ply.to =  getPosFromStr(mv.substr(2,2));
+                ply.str = mv;
+                string l = board.getPGNCode(board.squares[ply.from]);
+                ply.strDisplay = l+mv;
+                game.plies.push_back(ply);
+                [self makemove:ply];
+            }
+            [wrapper findMove0:fen];
+            break;
+        }
+        case MATE:
+        {
+            isClockRunning = false;
+            [self stopTimer];
+            NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+            [self->mainView setGame:p];
+            break;
+        }
+            
+        case PAT:
+        {
+            isClockRunning = false;
+            [self stopTimer];
+            NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+            [self->mainView setGame:p];
+            break;
+        }
+            
+        case RESIGN:
+        {
+            isClockRunning = false;
+            [self stopTimer];
+            NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
+            [self->mainView setGame:p];
+            break;
+        }
+            
+        case STOPPED:
+        {
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+/*
     if(!isWhiteHuman){
         [self startTimer];
         string fen = board.getFen(&board);
@@ -89,6 +167,7 @@ bool isBlackHuman = false;
     }
     [self setNeedsDisplay:YES];
 }
+ */
 
 -(void)comboBoxSelectionDidChange:(NSNotification *)notification{
     if ([notification object] == drpEngine0) {
@@ -231,10 +310,6 @@ bool isBlackHuman = false;
         activeFrom = -1;
     }
     if(movesCountAll==0){
-        // stop clocks
-        isClockRunning = false;
-        [self stopTimer];
-        
         if(checkKingInChess){
             checkKingInChess = false;
             if(foundAttacker){
@@ -246,20 +321,60 @@ bool isBlackHuman = false;
                 }
                 NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
                 [self->mainView setGame:p];
+                engineState = MATE;
             }else{
                 // pat
                 game.result = "1/2-1/2";
                 NSString *p = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
                 [self->mainView setGame:p];
+                engineState = PAT;
             }
-            return;
+            [self go];
         }
         
         // Check if mate
-        checkKingInChess =true;
+        checkKingInChess = true;
         string fen = board.getFen(&board);
         [wrapper getLegalMoves:fen];
     }
+    
+    
+    if(board.sideToMove == WHITE && isWhiteHuman){
+        return;
+    }
+    if(board.sideToMove == BLACK && isBlackHuman){
+        return;
+    }
+  
+    // engines on both sides
+    string fen = board.getFen(&board);
+    NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
+    
+    //  Check book
+    U64 hash =  pgkey.findHash(fen);
+    string mv = pgshow.readBook(hash, bookPath);
+    if("ERR" == mv){
+        [wrapper findMove0 :fen];
+    }else{
+        Ply ply;
+        ply.from =  getPosFromStr(mv.substr(0,2));
+        ply.to =  getPosFromStr(mv.substr(2,2));
+        ply.str = mv;
+        string l = board.getPGNCode(board.squares[ply.from]);
+        ply.strDisplay = l+mv;
+        game.plies.push_back(ply);
+        [self makemove:ply];
+        
+        if(board.sideToMove == WHITE && isWhiteHuman){
+            return;
+        }
+        if(board.sideToMove == BLACK && isBlackHuman){
+            return;
+        }
+        NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
+        [wrapper findMove0 :fen];
+    }
+    activeFrom =-1;
 }
 
 - (void) receivingMethodOnListener:(NSNotification *) notification{
@@ -407,32 +522,8 @@ bool isBlackHuman = false;
             [self->mainView setFen:fens];
             [self setNeedsDisplay:YES];
         });
-        
-        //  Check book
-        U64 hash =  pgkey.findHash(fen);
-        string mv = pgshow.readBook(hash, bookPath);
-        if("ERR" == mv){
-            [wrapper findMove0 :fen];
-        }else{
-            Ply ply;
-            ply.from =  getPosFromStr(mv.substr(0,2));
-            ply.to =  getPosFromStr(mv.substr(2,2));
-            ply.str = mv;
-            string l = board.getPGNCode(board.squares[ply.from]);
-            ply.strDisplay = l+mv;
-            game.plies.push_back(ply);
-            [self makemove:ply];
-            
-            if(board.sideToMove == WHITE && isWhiteHuman){
-                return;
-            }
-            if(board.sideToMove == BLACK && isBlackHuman){
-                return;
-            }
-            NSString *fens = [NSString stringWithCString:fen.c_str() encoding:[NSString defaultCStringEncoding]];
-            [wrapper findMove0 :fen];
-        }
-        activeFrom =-1;
+        [wrapper getLegalMoves:fen];
+
     }
 }
 
@@ -677,7 +768,9 @@ bool isBlackHuman = false;
                 
                 activeFrom = hit;
                 isSelected = true;
-                [self findMoves:hit];
+                engineState = GETLEGAL;
+                [self go];
+                
             }else{
                 bool found = false;
                 for(int i=0;i<64;i++){
@@ -767,6 +860,7 @@ bool isBlackHuman = false;
                     [self findMoves:-1];
                     
                     game.plies.push_back(ply);
+                    
                     NSString *pstr = [NSString stringWithCString: game.getDesccription().c_str() encoding:[NSString defaultCStringEncoding]];
                     [self->mainView setGame:pstr];
                     

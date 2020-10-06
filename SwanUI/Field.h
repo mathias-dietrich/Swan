@@ -64,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)SetBlackToMove;
 - (void) receivingVengine:(NSNotification *) notification;
 
+- (void)go;
 NS_ASSUME_NONNULL_END
 @end
 
